@@ -54,6 +54,10 @@ struct Community; // 小区
 struct CommunityListNode; // 小区链表节点
 struct CommunityList; // 小区链表
 
+/*voidtreap*/
+struct VoidTreapNode;
+struct VoidTreap;
+
 /*addresstree.h*/
 struct AddressTree; // 地址树
 
