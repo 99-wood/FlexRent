@@ -14,4 +14,6 @@ struct User{
     struct IntList viewMsgList;
     struct IntList rentMsgList;
 };
+
+void modifyPassword(struct User * user, char * password);
 #endif
