@@ -15,7 +15,6 @@ struct ViewHouseMsg{
     struct Middium * middium;
     struct Date reqTime;
     enum ViewHouseMsgState state;
-    time_t solveTime;
 };
 
 struct VHMListNode{
