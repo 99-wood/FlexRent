@@ -23,17 +23,17 @@ int getVoidListCnt(struct VoidList * list);
 // 查询是否出现某个值
 bool findVoidListValue(struct VoidList * list, int w);
 
-// 将链表转为 int 数组，返回数组首地址
-int * VoidListToVoidArray(struct VoidList * list);
+// 将链表转为 void* 数组，返回数组首地址
+void** VoidListToVoidArray(struct VoidList * list);
 
-// 将 int 数组转为链表，返回链表
-struct VoidList * VoidArrayToVoidList(int * array, int len);
+// 将 int* 数组转为链表，返回链表
+struct VoidList * VoidArrayToVoidList(void* array[], int len);
 
 // 链表头部插入节点
-void addVoidListHead(struct VoidList * list, int w);
+void addVoidListHead(struct VoidList * list, void* w);
 
 // 链表尾部插入节点
-void addVoidListTail(struct VoidList * list, int w);
+void addVoidListTail(struct VoidList * list, void* w);
 
 // 在特定节点后插入节点
 // void addVoidListNode(struct VoidList * list, struct VoidListNode * node, int w);
@@ -48,6 +48,6 @@ void delVoidListTail(struct VoidList * list);
 // void delVoidListNode(struct VoidList * list, struct VoidListNode * node);
 
 // 筛选满足条件的节点
-struct VoidList * filterVoidList(struct VoidList * list, bool (*check)(int));
+struct VoidList * filterVoidList(struct VoidList * list, bool (*check)(void*));
 
 #endif
