@@ -4,7 +4,7 @@
 #include <stdbool.h>
 #include "typedefine.h"
 
-// int 类型单项链表节点
+// int 类型单向链表节点
 struct IntListNode{
     int value; //值
     struct IntListNode * nxt; // 下一个节点地址

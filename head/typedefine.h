@@ -6,6 +6,9 @@
 /*intlist.h*/
 struct IntList; // 整型链表
 
+/*voidlist.h*/
+struct VoidList; // void*类型链表
+
 /*date.h*/
 struct Date; // 日期类型
 
