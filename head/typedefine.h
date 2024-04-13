@@ -61,7 +61,9 @@ struct CommunityList; // 小区链表
 struct VoidTreapNode;
 struct VoidTreap;
 
-/*addresstree.h*/
-struct AddressTree; // 地址树
+/*hashtreap*/
+struct HashTreapNode;
+struct HashTreap;
+
 
 #endif

@@ -29,3 +29,8 @@ int cmpHashValue(struct HashValue h1,struct HashValue h2){
 		}
 	}
 }
+
+struct HashValue preHashValue(struct HashValue a){
+	a.hash2--;
+	return a;
+}

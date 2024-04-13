@@ -17,4 +17,6 @@ struct HashValue makeHashValue(char* c);
 //哈希值大小比较,
 int cmpHashValue(struct HashValue h1, struct HashValue h2);
 
+struct HashValue preHashValue(struct HashValue a);
+
 #endif
