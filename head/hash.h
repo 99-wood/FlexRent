@@ -13,6 +13,6 @@ struct HashValue{
 //哈希值生成
 struct HashValue makeHashValue(char* c);
 //哈希值大小比较,
-int cmpHashValue(HashValue h1,HashValue h2);
+int cmpHashValue(struct HashValue h1, struct HashValue h2);
 
 #endif
