@@ -15,5 +15,17 @@ struct HashValue makeHashValue(char* c){
 }
 
 int cmpHashValue(struct HashValue h1,struct HashValue h2){
-	if()
+	if(h1.hash1>h2.hash1){
+		return 1;
+	}else{
+		if(h1.hash1==h2.hash1){
+			if(h1.hash2>=h2.hash2){
+				return 1;
+			}else{
+				return 0;
+			}
+		}else{
+			return 0;
+		}
+	}
 }
