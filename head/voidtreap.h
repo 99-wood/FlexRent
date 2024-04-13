@@ -27,7 +27,7 @@ struct VoidTreapNode * mergeVoidTreap(struct VoidTreapNode * x, struct VoidTreap
 
 void splitVoidTreap1(struct VoidTreapNode * p, int id, struct VoidTreapNode * x, struct VoidTreapNode *y);
 
-// 添加节点
+// 添加节点 
 void addVoidTreapNode(struct VoidTreap * treap, void * data, int id);
 
 // 查询id对应的指针数据
