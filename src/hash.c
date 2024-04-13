@@ -15,5 +15,5 @@ struct HashValue makeHashValue(char* c){
 }
 
 int cmpHashValue(struct HashValue h1,struct HashValue h2){
-
+	if()
 }
