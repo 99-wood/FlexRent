@@ -1,4 +1,4 @@
-#ifndef _AREA
+ #ifndef _AREA
 #define _AREA
 
 #include "typedefine.h"
