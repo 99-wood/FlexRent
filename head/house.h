@@ -14,7 +14,7 @@ struct House{
     bool isDel;
     char * ownerName;
     char * ownerPhone;
-    struct Community * father;
+    struct Place * father;
     char * introduce; //房屋介绍
     char * address; //房源地址
     char * type; //房型
@@ -24,16 +24,6 @@ struct House{
     struct Tag * houseType; //房型
     struct IntList viewMsgList;
     struct IntList rentMsgList;
-};
-
-struct HouseListNode{
-    struct House * data;
-    struct HouseListNode * nxt;
-};
-
-struct HouseList{
-    struct HouseListNode head;
-    int cnt;
 };
 
 #endif
