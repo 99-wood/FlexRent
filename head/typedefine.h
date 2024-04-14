@@ -42,20 +42,23 @@ struct ViewHouseMsg; // 看房信息
 struct VHMListNode; // 看房信息链表节点
 struct VHMList;  // 看房信息链表
 
-/*city.h*/
-struct City; // 城市
-struct CityListNode; // 城市链表节点
-struct CityList; // 城市链表
+// /*city.h*/
+// struct City; // 城市
+// struct CityListNode; // 城市链表节点
+// struct CityList; // 城市链表
 
-/*area.h*/
-struct Area; // 区域
-struct AreaListNode; // 区域链表节点
-struct AreaList; // 区域链表
+// /*area.h*/
+// struct Area; // 区域
+// struct AreaListNode; // 区域链表节点
+// struct AreaList; // 区域链表
 
-/*community.h*/
-struct Community; // 小区
-struct CommunityListNode; // 小区链表节点
-struct CommunityList; // 小区链表
+// /*community.h*/
+// struct Community; // 小区
+// struct CommunityListNode; // 小区链表节点
+// struct CommunityList; // 小区链表
+
+/*place.h*/
+struct Place;
 
 /*voidtreap*/
 struct VoidTreapNode;
