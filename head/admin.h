@@ -5,4 +5,5 @@ struct Admin{
     char * password;
 };
 void resetAdmin(struct Admin * admin);
+void changeAdminPassword(struct Admin * admin, char newPassword[])
 #endif

@@ -13,13 +13,13 @@ struct RentHouseMsg{
     struct Middium * middium;
 };
 
-struct RHMListNode{
-    struct RentHouseMsg * data;
-    struct RHMListNode * nxt;
-};
+// struct RHMListNode{
+//     struct RentHouseMsg * data;
+//     struct RHMListNode * nxt;
+// };
 
-struct RHMList{
-    struct RHMListNode head;
-    int cnt;
-};
+// struct RHMList{
+//     struct RHMListNode head;
+//     int cnt;
+// };
 #endif

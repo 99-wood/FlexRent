@@ -2,6 +2,7 @@
 #define _TYPE_DEFINE
 
 #include<stdbool.h>
+#include<stdlib.h>
 
 /*intlist.h*/
 struct IntList; // 整型链表
