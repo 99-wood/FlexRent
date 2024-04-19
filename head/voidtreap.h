@@ -4,7 +4,6 @@
 #include "typedefine.h"
 #include <stdlib.h>
 // void*类型treap节点
-//这个树可能
 struct VoidTreapNode{
     int id;
     int rnd;
