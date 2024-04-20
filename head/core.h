@@ -22,4 +22,11 @@ void setAdminPassword(char newPassword[]){
     }
     return;
 }
+
+/*place*/
+
+int addPlace(char name[], char fatherName[]){
+    Place *place, *father;
+    father = 
+}
 #endif

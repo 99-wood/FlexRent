@@ -20,10 +20,10 @@ struct Place{
 
 //创建并初始化name,level
 //且父、子节点指针默认为空默认为空
-struct Place* newPlace2(char* n, enum depth l);
+// struct Place* newPlace(char* n, enum depth l);
 //向某一层级的Place的son链表中加入新的节点
 //同时绑定父节点
 //p要么是House*类型，要么是Place*类型
-void addPlace(struct Place*,void* p);
+// void addPlace(struct Place*,void* p);
 
 #endif

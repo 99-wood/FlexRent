@@ -3,7 +3,7 @@
 #include <stdlib.h>
 #include "hash.h"
 
-struct Place* newPlace2(char* n,enum depth l){
+struct Place* newPlace(char* n,enum depth l){
     struct Place* prt;
     prt=(struct Place*)malloc(sizeof(struct Place));
     prt->name=n;

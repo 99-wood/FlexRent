@@ -31,6 +31,6 @@ void splitHashTreap1(struct HashTreapNode * p, struct HashValue id, struct HashT
 void addHashTreapNode(struct HashTreap * treap, void * data, struct HashTreap id);
 
 // 查询id对应的指针数据
-void * getHashTreapNodeData(struct HashTreap * treap, struct HashTreap id);
+void * getHashTreapNodeData(struct HashTreap * treap, struct HashValue id);
 
 #endif
