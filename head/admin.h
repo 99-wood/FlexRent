@@ -1,7 +1,7 @@
 #ifndef _ADMIN
 #define _ADMIN
 #include "typedefine.h"
-char defaultAdminPassword[] = "123456";
+// char defaultAdminPassword[] = "123456";
 struct Admin{
     char * password;
 };

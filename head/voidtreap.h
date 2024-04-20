@@ -24,7 +24,7 @@ void pushupVoidTreapNode(struct VoidTreapNode * node);
 
 struct VoidTreapNode * mergeVoidTreap(struct VoidTreapNode * x, struct VoidTreapNode * y);
 
-void splitVoidTreap1(struct VoidTreapNode * p, int id, struct VoidTreapNode * x, struct VoidTreapNode *y);
+void splitVoidTreap1(struct VoidTreapNode * p, int id, struct VoidTreapNode** x, struct VoidTreapNode** y);
 
 // 添加节点 
 void addVoidTreapNode(struct VoidTreap * treap, void * data, int id);

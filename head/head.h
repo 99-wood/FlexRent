@@ -3,12 +3,12 @@
 #include "typedefine.h"
 #include "admin.h"
 #include "place.h"
+#include "tag.h"
 #include "voidtreap.h"
-struct Place root;
+struct Place placeRoot;
 struct Admin admin;
-VoidTreap rentHouseMsg;
-VoidTreap viewHouseMsg;
-VoidTreap users;
-VoidTreap middiums;
-
+struct VoidTreap rentHouseMsg;
+struct VoidTreap viewHouseMsg;
+struct VoidTreap users;
+struct VoidTreap middiums;
 #endif

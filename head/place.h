@@ -7,15 +7,15 @@
 //Palce的深度、层级
 //有city、area、community
 enum depth{
-    city=1,area,community,
+    city = 1,area = 2,community = 3,
 };
 
-struct VoidTreap placeTraep;
+struct HashTreap placeTraep;
 struct Place{
     char* name;
     struct Place* father;
     struct VoidList sons;
-    enum depth level;
+    int level;
 };
 
 //创建并初始化name,level

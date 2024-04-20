@@ -21,7 +21,7 @@ void initVoidList(struct VoidList * list);
 int getVoidListCnt(struct VoidList * list);
 
 // 查询是否出现某个值
-bool findVoidListValue(struct VoidList * list, int w);
+bool findVoidListValue(struct VoidList * list, void* w);
 
 // 将链表转为 void* 数组，返回数组首地址
 void** VoidListToVoidArray(struct VoidList * list);

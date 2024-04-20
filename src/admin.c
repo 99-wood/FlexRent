@@ -1,2 +1,2 @@
 #include "admin.h"
-void resetAdmin
+// void resetAdmin

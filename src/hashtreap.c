@@ -40,19 +40,20 @@ struct HashTreapNode * mergeHashTreap(struct HashTreapNode * x, struct HashTreap
     }
 }
 
-void splitHashTreap1(struct HashTreapNode * p, struct HashValue id, struct HashTreapNode * x, struct HashTreapNode *y){
-    if(!p){
-        x = y = NULL;
+void splitHashTreap1(struct HashTreapNode * p, struct HashValue id, struct HashTreapNode** x, struct HashTreapNode** y){
+    if(p == NULL){
+        *x = NULL;
+        *y = NULL;
         return;
     }
     if(cmpHashValue(id, p -> id) ){
-        x = p;
-        splitHashTreap1(p -> r, id, x -> r, y);
+        *x = p;
+        splitHashTreap1(p -> r, id, &((*x) -> r), y);
         return;
     }
     else{
-        y = p;
-        splitHashTreap1(p -> l, id, x, y -> l);
+        *y = p;
+        splitHashTreap1(p -> l, id, x, &((*y) -> l));
         return;
     }
 }
@@ -60,15 +61,17 @@ void splitHashTreap1(struct HashTreapNode * p, struct HashValue id, struct HashT
 void addHashTreapNode(struct HashTreap * treap, void * data, struct HashValue id){
     struct HashTreapNode * node = newHashTreapNode(data, id);
     struct HashTreapNode *x, *y;
-    splitHashTreap1(treap -> root, id, x, y);
+    splitHashTreap1(treap -> root, id, &x, &y);
+    // printf("%d %d", x, y);
     treap -> root = mergeHashTreap(mergeHashTreap(x, node), y);
+    // printf("no");
     return;
 }
 
 void * getHashTreapNodeData(struct HashTreap * treap, struct HashValue id){
     struct HashTreapNode *x, *y, *z;
-    splitHashTreap1(treap -> root, preHashValue(id), x, y);
-    splitHashTreap1(y, id, y, z);
+    splitHashTreap1(treap -> root, preHashValue(id), &x, &y);
+    splitHashTreap1(y, id, &y, &z);
     void * ans = NULL;
     if(y) ans = y -> data;
     treap -> root = mergeHashTreap(mergeHashTreap(x, y), z);

@@ -1,26 +1,14 @@
 #include "voidlist.h"
 #include <stdlib.h>
-// void* ���͵��������ڵ�
-struct VoidListNode{
-    void* value; //ֵ
-    struct VoidListNode * nxt; // ��һ���ڵ��ַ
-};
-
-// void* ���͵�������
-struct VoidList{
-    struct VoidListNode * head; // �׽ڵ�
-    int cnt; //�ڵ����
-};
+#include <stdio.h>
 
 // ������ʼ��
-void initVoidList(struct VoidList * list);
 void initVoidList(struct VoidList* list) {
     list->head = NULL;
     list->cnt = 0;
 }
 
 // ���Ԫ�ظ���������
-int getVoidListCnt(struct VoidList * list);
 int getVoidListCnt(struct VoidList* list) {
     return list->cnt;
 }
@@ -39,7 +27,6 @@ bool findVoidListValue(struct VoidList* list, void* w) {
     return false;
 }
 // ������תΪ void* ���飬���������׵�ַ
-void** VoidListToVoidArray(struct VoidList * list);
 void** VoidListToVoidArray(struct VoidList* list) {
     if (list->head == NULL) {
         printf("List is empty. No elements to convert.\n");
@@ -64,7 +51,6 @@ void** VoidListToVoidArray(struct VoidList* list) {
 }
 
 // �� int* ����תΪ��������������
-struct VoidList * VoidArrayToVoidList(void* array[], int len);
 struct VoidList* VoidArrayToVoidList(void* array[], int len) {
     // ��ʼ������
     struct VoidList* list = (struct VoidList*)malloc(sizeof(struct VoidList));
@@ -83,7 +69,6 @@ struct VoidList* VoidArrayToVoidList(void* array[], int len) {
 }
 
 // ����ͷ������ڵ�
-void addVoidListHead(struct VoidList * list, void* w);
 void addVoidListHead(struct VoidList* list, void* w) {
     struct VoidListNode* newNode = (struct VoidListNode*)malloc(sizeof(struct VoidListNode));
     if (newNode == NULL) {
@@ -97,7 +82,6 @@ void addVoidListHead(struct VoidList* list, void* w) {
 }
 
 // ����β������ڵ�
-void addVoidListTail(struct VoidList * list, void* w);
 void addVoidListTail(struct VoidList* list, void* w) {
     // �����½ڵ�
     struct VoidListNode* newNode = (struct VoidListNode*)malloc(sizeof(struct VoidListNode));
@@ -135,7 +119,6 @@ void addVoidListNode(struct VoidList* list, struct VoidListNode* node, void* w) 
     list->cnt++;
 }
 // ɾ������ͷ���ڵ�
-void delVoidListHead(struct VoidList * list);
 void delVoidListHead(struct VoidList* list) {
     if (list->head == NULL) {
         printf("List is empty. No node to delete.\n");
@@ -148,7 +131,6 @@ void delVoidListHead(struct VoidList* list) {
 }
 
 // ɾ������β���ڵ�
-void delVoidListTail(struct VoidList * list);
 void delVoidListTail(struct VoidList* list) {
     if (list->head == NULL) {
         printf("List is empty. No node to delete.\n");
@@ -170,7 +152,6 @@ void delVoidListTail(struct VoidList* list) {
 }
 
 // ɾ���ض��ڵ�
-void delVoidListNode(struct VoidList * list, struct VoidListNode * node);
 void delVoidListNode(struct VoidList* list, struct VoidListNode* node) {
     if (list->head == NULL) {
         printf("List is empty. No node to delete.\n");
@@ -199,7 +180,6 @@ void delVoidListNode(struct VoidList* list, struct VoidListNode* node) {
 }
 
 // ɸѡ���������Ľڵ�
-struct VoidList * filterVoidList(struct VoidList * list, bool (*check)(void*));
 struct VoidList* filterVoidList(struct VoidList* list, bool (*check)(void*)) {
     // ��ʼ��������
     struct VoidList* filteredList = (struct VoidList*)malloc(sizeof(struct VoidList));

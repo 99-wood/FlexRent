@@ -40,35 +40,36 @@ struct VoidTreapNode * mergeVoidTreap(struct VoidTreapNode * x, struct VoidTreap
     }
 }
 
-void splitVoidTreap1(struct VoidTreapNode * p, int id, struct VoidTreapNode * x, struct VoidTreapNode *y){
+void splitVoidTreap1(struct VoidTreapNode * p, int id, struct VoidTreapNode** x, struct VoidTreapNode** y){
     if(!p){
-        x = y = NULL;
+        *x = *y = NULL;
         return;
     }
     if(p -> id < id){
-        x = p;
-        splitVoidTreap1(p -> r, id, x -> r, y);
+        *x = p;
+        splitVoidTreap1(p -> r, id, &((*x) -> r), y);
         return;
     }
     else{
-        y = p;
-        splitVoidTreap1(p -> l, id, x, y -> l);
+        *y = p;
+        splitVoidTreap1(p -> l, id, x, &((*y) -> l));
         return;
     }
 }
 
 void addVoidTreapNode(struct VoidTreap * treap, void * data, int id){
+    // printf("1");
     struct VoidTreapNode * node = newVoidTreapNode(data, id);
     struct VoidTreapNode *x, *y;
-    splitVoidTreap1(treap -> root, id, x, y);
+    splitVoidTreap1(treap -> root, id, &x, &y);
     treap -> root = mergeVoidTreap(mergeVoidTreap(x, node), y);
     return;
 }
 
 void * getVoidTreapNodeData(struct VoidTreap * treap, int id){
     struct VoidTreapNode *x, *y, *z;
-    splitVoidTreap1(treap -> root, id - 1, x, y);
-    splitVoidTreap1(y, id, y, z);
+    splitVoidTreap1(treap -> root, id - 1, &x, &y);
+    splitVoidTreap1(y, id, &y, &z);
     void * ans = NULL;
     if(y) ans = y -> data;
     treap -> root = mergeVoidTreap(mergeVoidTreap(x, y), z);

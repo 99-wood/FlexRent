@@ -1,5 +1,10 @@
 {
     "files.associations": {
-        "hashtreap.h": "c"
+        "hashtreap.h": "c",
+        "core.h": "c",
+        "typedefine.h": "c",
+        "head.h": "c",
+        "admin.h": "c",
+        "voidtreap.h": "c"
     }
 }

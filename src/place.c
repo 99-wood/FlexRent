@@ -3,20 +3,20 @@
 #include <stdlib.h>
 #include "hash.h"
 
-struct Place* newPlace(char* n,enum depth l){
-    struct Place* prt;
-    prt=(struct Place*)malloc(sizeof(struct Place));
-    prt->name=n;
-    prt->level=l;
-    prt->father=NULL;
-    addVoidTreapNode(&placeTraep,prt,makeHashValue(n));
-}
+// struct Place* newPlace(char* n,enum depth l){
+//     struct Place* prt;
+//     prt=(struct Place*)malloc(sizeof(struct Place));
+//     prt->name=n;
+//     prt->level=l;
+//     prt->father=NULL;
+//     addVoidTreapNode(&placeTraep,prt,makeHashValue(n));
+// }
 
-void addPlace(struct Place* prt,void* p){
-    addVoidListHead(&(prt->sons),p);
-    if(prt->level==community){
-        ((struct House*)p)->father=prt;
-    }else{
-        ((struct Place*)p)->father=prt;
-    }
-}
+// void addPlace(struct Place* prt,void* p){
+//     addVoidListHead(&(prt->sons),p);
+//     if(prt->level==community){
+//         ((struct House*)p)->father=prt;
+//     }else{
+//         ((struct Place*)p)->father=prt;
+//     }
+// }
