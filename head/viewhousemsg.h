@@ -4,27 +4,32 @@
 #include "typedefine.h"
 #include "time.h"
 #include "date.h"
+#include "voidlist.h"
+#include "voidtreap.h"
 
 enum ViewHouseMsgState{
-    cnacel, success, finish
+    cancel, normal, finish
 };
+int cntViewMsg;
+struct VoidList vMsgList;
+struct VoidTreap vMsgTreap;
 struct ViewHouseMsg{
     int id;
-    struct House * house;
-    struct User * user;
-    struct Middium * middium;
+    int houseId;
+    int userId;
+    int middiumId;
     struct Date reqTime;
     enum ViewHouseMsgState state;
 };
 
-struct VHMListNode{
-    struct ViewHouseMsg * data;
-    struct VHMListNode * nxt;
-};
+// struct VHMListNode{
+//     struct ViewHouseMsg * data;
+//     struct VHMListNode * nxt;
+// };
 
-struct VHMList{
-    struct VHMListNode head;
-    int cnt;
-};
+// struct VHMList{
+//     struct VHMListNode head;
+//     int cnt;
+// };
 
 #endif

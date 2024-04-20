@@ -3,8 +3,11 @@
 #include "typedefine.h"
 #include "voidtreap.h"
 #include "house.h"
+#include "middium.h"
+#include "user.h"
 #include "head.h"
 #include "windows.h"
+
 /*Admin*/
 char* getAdminPassword(){
     return admin.password;
@@ -102,13 +105,66 @@ void printHouse(struct House* house){
     if(house -> state == deleted) return;
     printf("%5d %3d %20s\n", house -> id, house -> S, house -> address);
 }
+struct ViewHouseMsg* newViewHouseMsg(struct User* user, struct House* house, struct Middium* middium, struct Date date){
+    struct ViewHouseMsg* msg = (struct ViewHouseMsg*)malloc(sizeof(struct ViewHouseMsg));
+    msg -> houseId = house -> id;
+    msg -> userId = user -> id;
+    msg -> reqTime = date;
+    msg -> state = normal;
+    msg -> id = cntViewMsg++;
+    addVoidListHead(&vMsgList, msg);
+    addVoidTreapNode(&vMsgTreap, msg, msg -> id);
+    addIntListHead(&user -> viewMsgList, msg -> id);
+    addIntListHead(&house -> viewMsgList, msg -> id);
+    addIntListHead(&middium -> viewMsgList, msg -> id);
+    return msg;
+}
+void viewHouse(struct User* user, struct House* house, struct Middium* middium, struct Date date){
+    if(middium == NULL){
+        middium = getVoidTreapNodeData(&middiumTreap, rand() % cntMiddium);
+    }
+    newViewHouseMsg(user, house, middium, date);
+}
+void cancalViewHouse(struct ViewHouseMsg* msg){
+    if(msg != NULL) msg -> state = cancel;
+    return;
+}
+void finishViewHouse(struct ViewHouseMsg* msg){
+    if(msg != NULL) msg -> state = finish;
+    return;
+}
+struct RentHouseMsg* newRentHouseMsg(struct User* user, struct House* house, struct Middium* middium, struct Date begin, struct Date end){
+    struct RentHouseMsg* msg = (struct RentHouseMsg*)malloc(sizeof(struct RentHouseMsg));
+    msg -> houseId = house -> id;
+    msg -> userId = user -> id;
+    msg -> begin = begin;
+    msg -> end = end;
+    msg -> id = cntRentMsg++;
+    addVoidListHead(&vMsgList, msg);
+    addVoidTreapNode(&vMsgTreap, msg, msg -> id);
+    addIntListHead(&user -> rentMsgList, msg -> id);
+    addIntListHead(&house -> rentMsgList, msg -> id);
+    addIntListHead(&middium -> rentMsgList, msg -> id);
+    return msg;
+}
+void rentHouse(struct User* user, struct House* house, struct Middium* middium, struct Date begin, struct Date end){
+    if(middium == NULL){
+        middium = getVoidTreapNodeData(&middiumTreap, rand() % cntMiddium);
+    }
+    newRentHouseMsg(user, house, middium, begin, end);
+}
+
 /*init*/
 void initSystem(){
     setAdminPassword("123456");
-    initVoidTreap(&rentHouseMsg);
-    initVoidTreap(&viewHouseMsg);
-    initVoidTreap(&users);
-    initVoidTreap(&middiums);
+    // initVoidTreap(&rentHouseMsg);
+    initVoidTreap(&vMsgTreap);
+    initVoidList(&vMsgList);
+    initVoidTreap(&rMsgTreap);
+    initVoidList(&rMsgList);
+    // initVoidTreap(&users);
+    initVoidTreap(&middiumTreap);
+    initVoidList(&middiumList);
     initVoidTreap(&houseTreap);
     initHashTreap(&placeTraep);
     initVoidList(&HouseList);

@@ -3,14 +3,19 @@
 
 #include "typedefine.h"
 #include "date.h"
+#include "voidlist.h"
+#include "voidtreap.h"
 
+struct VoidList rMsgList;
+struct VoidTreap rMsgTreap;
+int cntRentMsg;
 
 struct RentHouseMsg{
     int id;
     struct Date begin, end;
-    struct House * house;
-    struct User * user;
-    struct Middium * middium;
+    int houseId;
+    int userId;
+    int middiumId;
 };
 
 // struct RHMListNode{
