@@ -1,4 +1,4 @@
-CMakeFiles/FlexRent.dir/src/admin.c.obj: D:\code\FlexRent\src\admin.c \
+CMakeFiles/FlexRent.dir/src/admin.c.obj: D:/code/FlexRent/src/admin.c \
  D:/code/FlexRent/head/admin.h D:/code/FlexRent/head/typedefine.h \
  d:\mingw\lib\gcc\mingw32\6.3.0\include\stdbool.h \
  d:\mingw\include\stdlib.h d:\mingw\include\_mingw.h \

@@ -1,4 +1,4 @@
-CMakeFiles/FlexRent.dir/src/place.c.obj: D:\code\FlexRent\src\place.c \
+CMakeFiles/FlexRent.dir/src/place.c.obj: D:/code/FlexRent/src/place.c \
  D:/code/FlexRent/head/place.h D:/code/FlexRent/head/typedefine.h \
  d:\mingw\lib\gcc\mingw32\6.3.0\include\stdbool.h \
  d:\mingw\include\stdlib.h d:\mingw\include\_mingw.h \
@@ -12,6 +12,6 @@ CMakeFiles/FlexRent.dir/src/place.c.obj: D:\code\FlexRent\src\place.c \
  d:\mingw\include\strings.h d:\mingw\include\wchar.h \
  D:/code/FlexRent/head/house.h D:/code/FlexRent/head/date.h \
  D:/code/FlexRent/head/viewhousemsg.h d:\mingw\include\time.h \
- d:\mingw\include\sys\types.h D:/code/FlexRent/head/renthousemsg.h \
- D:/code/FlexRent/head/intlist.h D:/code/FlexRent/head/voidtreap.h \
+ d:\mingw\include\sys\types.h D:/code/FlexRent/head/voidtreap.h \
+ D:/code/FlexRent/head/renthousemsg.h D:/code/FlexRent/head/intlist.h \
  D:/code/FlexRent/head/hash.h

@@ -1,4 +1,4 @@
-CMakeFiles/FlexRent.dir/src/main.c.obj: D:\code\FlexRent\src\main.c \
+CMakeFiles/FlexRent.dir/src/main.c.obj: D:/code/FlexRent/src/main.c \
  D:/code/FlexRent/head/head.h D:/code/FlexRent/head/typedefine.h \
  d:\mingw\lib\gcc\mingw32\6.3.0\include\stdbool.h \
  d:\mingw\include\stdlib.h d:\mingw\include\_mingw.h \
@@ -16,6 +16,7 @@ CMakeFiles/FlexRent.dir/src/main.c.obj: D:\code\FlexRent\src\main.c \
  D:/code/FlexRent/head/date.h D:/code/FlexRent/head/viewhousemsg.h \
  d:\mingw\include\time.h d:\mingw\include\sys\types.h \
  D:/code/FlexRent/head/renthousemsg.h D:/code/FlexRent/head/intlist.h \
+ D:/code/FlexRent/head/middium.h D:/code/FlexRent/head/user.h \
  D:/code/FlexRent/head/head.h d:\mingw\include\windows.h \
  d:\mingw\include\windef.h d:\mingw\include\winnt.h \
  d:\mingw\include\winerror.h d:\mingw\include\basetsd.h \

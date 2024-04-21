@@ -8,10 +8,33 @@
 #include "head.h"
 #include "windows.h"
 
-/*Admin*/
-char* getAdminPassword(){
-    return admin.password;
+int __L, __R;
+
+/*tool*/
+void sort(void* val[], int l, int r, bool (*cmp)(void*, void*)){
+    if(l == r) return;
+    int mid = (l + r) >> 1;
+    sort(val, l, mid, cmp);
+    sort(val, mid + 1, r, cmp);
+    void* tmp[] = malloc(sizeof(void*) * (r + 1));
+    int px = l, py = mid + 1, p = l;
+    while(px <= mid && py <= r){
+        if(cmp(val[px], val[py])){
+            tmp[p++] = val[px++];
+        }
+        else{
+            tmp[p++] = val[py++];
+        }
+    }
+    while(px <= mid) tmp[p++] = val[p++] = val[px++];
+    while(py <= r) tmp[p++] = val[py++];
+    for(int i = l; i <= r; ++i) val[i] = tmp[i];
+    free(tmp);
+    return;
 }
+bool 
+
+/*Admin*/
 void setAdminPassword(char newPassword[]){
     free(admin.password);
     int len = strlen(newPassword);
@@ -93,12 +116,15 @@ void delHouse(struct House* house){
     return;
 }
 void setdirection(struct House* house, int tagId){
-    house -> direction = tagId;
+    if(house != NULL) house -> direction = tagId;
     return;
 }
 void setdecorationLevel(struct House* house, int tagId){
-    house -> decorationLevel = tagId;
+    if(house != NULL) house -> decorationLevel = tagId;
     return;
+}
+void setPrice(struct House* house, int price){
+    if(house != NULL) house -> price = price;
 }
 void printHouse(struct House* house){
     if(house == NULL) return;
@@ -152,6 +178,15 @@ void rentHouse(struct User* user, struct House* house, struct Middium* middium, 
         middium = getVoidTreapNodeData(&middiumTreap, rand() % cntMiddium);
     }
     newRentHouseMsg(user, house, middium, begin, end);
+}
+
+/*middium*/
+struct Middium* addMiddium(char name[], char passord[], char phoneNumber[]){
+    struct Middium* middium = (struct Middium*)malloc(sizeof(struct Middium));
+    middium -> password = (char*)malloc(sizeof(char) * (strlen(passord) + 1));
+    middium -> phoneNumber = (char*)malloc(sizeof(char) * (strlen(phoneNumber) + 1));
+    initIntList(&middium -> viewMsgList);
+    initIntList(&middium -> rentMsgList);
 }
 
 /*init*/
