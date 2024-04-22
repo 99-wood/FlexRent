@@ -8,6 +8,8 @@
 #include "head.h"
 #include "windows.h"
 #include "ui.h"
+#include "viewhousemsg.h"
+#include "renthousemsg.h"
 
 int __L, __R;
 
@@ -130,6 +132,9 @@ void setdecorationLevel(struct House* house, int tagId){
 void setPrice(struct House* house, int price){
     if(house != NULL) house -> price = price;
 }
+void setHouseType(struct House* house, int tagId){
+    if(house != NULL) house -> houseType = tagId;
+}
 void printHouse(struct House* house){
     if(house == NULL) return;
     if(house -> state == deleted) return;
@@ -169,6 +174,7 @@ struct ViewHouseMsg* newViewHouseMsg(struct User* user, struct House* house, str
     struct ViewHouseMsg* msg = (struct ViewHouseMsg*)malloc(sizeof(struct ViewHouseMsg));
     msg -> houseId = house -> id;
     msg -> userId = user -> id;
+    msg -> middiumId = middium -> id;
     msg -> reqTime = date;
     msg -> state = normal;
     msg -> id = cntViewMsg++;
@@ -179,11 +185,11 @@ struct ViewHouseMsg* newViewHouseMsg(struct User* user, struct House* house, str
     addIntListHead(&middium -> viewMsgList, msg -> id);
     return msg;
 }
-void viewHouse(struct User* user, struct House* house, struct Middium* middium, struct Date date){
+struct ViewHouseMsg* viewHouse(struct User* user, struct House* house, struct Middium* middium, struct Date date){
     if(middium == NULL){
         middium = getVoidTreapNodeData(&middiumTreap, rand() % cntMiddium);
     }
-    newViewHouseMsg(user, house, middium, date);
+    return newViewHouseMsg(user, house, middium, date);
 }
 void cancalViewHouse(struct ViewHouseMsg* msg){
     if(msg != NULL) msg -> state = cancel;
@@ -208,11 +214,11 @@ struct RentHouseMsg* newRentHouseMsg(struct User* user, struct House* house, str
     addIntListHead(&middium -> rentMsgList, msg -> id);
     return msg;
 }
-void rentHouse(struct User* user, struct House* house, struct Middium* middium, struct Date begin, struct Date end){
+struct RentHouseMsg* rentHouse(struct User* user, struct House* house, struct Middium* middium, struct Date begin, struct Date end){
     if(middium == NULL){
         middium = getVoidTreapNodeData(&middiumTreap, rand() % cntMiddium);
     }
-    newRentHouseMsg(user, house, middium, begin, end);
+    return newRentHouseMsg(user, house, middium, begin, end);
 }
 
 /*middium*/
@@ -299,38 +305,83 @@ void outputHouse(){
         printf("%d\n", house -> direction);
         printf("%d\n", house -> decorationLevel);
         printf("%d\n", house -> houseType);
+
         printf("%d\n", house -> viewMsgList.cnt);
         for(struct IntListNode* j = house -> viewMsgList.head; j != NULL; j = j -> nxt){
             printf("%d ", j -> value);
         }
+        printf("\n");
         printf("%d\n", house -> rentMsgList.cnt);
         for(struct IntListNode* j = house -> rentMsgList.head; j != NULL; j = j -> nxt){
             printf("%d ", j -> value);
         }
+        printf("\n");
     }
     return;
 }
-void outputRentMsg(){
-    printf("%d\n", rMsgList.cnt);
-    for(struct VoidListNode* p = (struct VoidListNode*)rMsgList.head; p != NULL; p = p -> nxt){
-        struct RentHouseMsg* now = (struct RentHouseMsg*)p -> value;
-        printf("%d\n", now -> id);
-        printf("%d %d %d %d %d %d\n", now -> begin.year, now -> begin.month, now -> begin.day, now -> end.year, now -> end.month, now -> end.day);
-        printf("%d\n", now -> houseId);
-        printf("%d\n", now -> userId);
-        printf("%d\n", now -> middiumId);
+void outputMiddium(){
+    printf("%d\n", cntMiddium);
+    for(int i = 0; i < cntMiddium; ++i){
+        struct Middium* middium = (struct Middium*)getVoidTreapNodeData(&middiumTreap, i);
+        printf("%s\n", middium -> name);
+        printf("%d\n", middium -> id);
+        printf("%s\n", middium -> password);
+        printf("%s\n", middium -> phoneNumber);
+
+        printf("%d\n", middium -> viewMsgList.cnt);
+        for(struct IntListNode* j = middium -> viewMsgList.head; j != NULL; j = j -> nxt){
+            printf("%d ", j -> value);
+        }
+        printf("\n");
+        printf("%d\n", middium -> rentMsgList.cnt);
+        for(struct IntListNode* j = middium -> rentMsgList.head; j != NULL; j = j -> nxt){
+            printf("%d ", j -> value);
+        }
+        printf("\n");
+    }
+}
+void outputUser(){
+    printf("%d\n", cntUser);
+    for(int i = 0; i < cntUser; ++i){
+        struct User* user = (struct User*)getVoidTreapNodeData(&userTreap, i);
+        printf("%s\n", user -> name);
+        printf("%d\n", user -> id);
+        printf("%s\n", user -> password);
+        printf("%s\n", user -> phoneNumber);
+
+        printf("%d\n", user -> viewMsgList.cnt);
+        for(struct IntListNode* j = user -> viewMsgList.head; j != NULL; j = j -> nxt){
+            printf("%d ", j -> value);
+        }
+        printf("\n");
+        printf("%d\n", user -> rentMsgList.cnt);
+        for(struct IntListNode* j = user -> rentMsgList.head; j != NULL; j = j -> nxt){
+            printf("%d ", j -> value);
+        }
+        printf("\n");
     }
 }
 void outputViewMsg(){
-    printf("%d\n", vMsgList.cnt);
-    for(struct VoidListNode* p = (struct VoidListNode*)vMsgList.head; p != NULL; p = p -> nxt){
-        struct ViewHouseMsg* now = (struct ViewHouseMsg*)p -> value;
+    printf("%d\n", cntViewMsg);
+    for(int i = 0; i < cntViewMsg; ++i){
+        struct ViewHouseMsg* now = (struct ViewHouseMsg*)getVoidTreapNodeData(&vMsgTreap, i);
         printf("%d\n", now -> id);
         printf("%d %d %d\n", now -> reqTime.year, now -> reqTime.month, now -> reqTime.day);
         printf("%d\n", now -> houseId);
         printf("%d\n", now -> userId);
         printf("%d\n", now -> middiumId);
-        printf("%d\n", now ->state);
+        printf("%d\n", now -> state);
+    }
+}
+void outputRentMsg(){
+    printf("%d\n", cntRentMsg);
+    for(int i = 0; i < cntRentMsg; ++i){
+        struct RentHouseMsg* now = (struct RentHouseMsg*)getVoidTreapNodeData(&rMsgTreap, i);
+        printf("%d\n", now -> id);
+        printf("%d %d %d %d %d %d\n", now -> begin.year, now -> begin.month, now -> begin.day, now -> end.year, now -> end.month, now -> end.day);
+        printf("%d\n", now -> houseId);
+        printf("%d\n", now -> userId);
+        printf("%d\n", now -> middiumId);
     }
 }
 void outputSystem(char fileName[]){
@@ -340,8 +391,174 @@ void outputSystem(char fileName[]){
     printf("FINISH\n");
     printf("FINISH\n");
     outputHouse();
+    outputMiddium();
+    outputUser();
+    outputViewMsg();
+    outputRentMsg();
     freopen("CON", "w", stdout);
     return;
+}
+void inputTag(){
+    int n;
+    scanf("%d", &n);
+    for(int i = 0; i < n; ++i){
+        char name[20];
+        gets(name);
+        addTag(name);
+    }
+    return;
+}
+void inputPlaceTree(){
+    char name[20], father[20];
+    gets(name);
+    gets(father);
+    while(strcmp(name, "FINISH") != 0){
+        addPlace(name, father);
+        gets(name);
+        gets(father);
+    }
+    return;
+}
+void inputHouse(){
+    int n;
+    scanf("%d", &n);
+    int id, price, S, floor, state, direction, decorationLevel, houseType;
+    char ownerName[20], ownerPhone[20], father[20], address[20];
+    for(int i = 0; i < n; ++i){
+        scanf("%d", &id);
+        scanf("%d", &price);
+        scanf("%d", &floor);
+        scanf("%d", &state);
+        scanf("%d", &S);
+        gets(ownerName);
+        gets(ownerPhone);
+        gets(father);
+        gets(address);
+        scanf("%d", &direction);
+        scanf("%d", &decorationLevel);
+        scanf("%d", &houseType);
+        struct House* house = addHouse(ownerName, ownerPhone, father, address, S, floor);
+        setPrice(house,price);
+        house -> state = state;
+        setdirection(house, direction);
+        setdecorationLevel(house, decorationLevel);
+        setHouseType(house, houseType);
+        int m;
+        scanf("%d", &m);
+        for(int j = 0; j < m; ++j){
+            int a;
+            scanf("%d", &a);
+            addIntListHead(&house -> viewMsgList, a);
+        }
+        scanf("%d", &m);
+        for(int j = 0; j < m; ++j){
+            int a;
+            scanf("%d", &a);
+            addIntListHead(&house -> rentMsgList, a);
+        }
+    }
+    return;
+}
+void inputMiddium(){
+    int n;
+    scanf("%d", &n);
+    int id;
+    char name[20], password[20], phoneNumber[20];
+    for(int i = 0; i < n; ++i){
+        gets(name);
+        scanf("%d", &id);
+        gets(password);
+        gets(phoneNumber);
+        struct Middium* middium = addMiddium(name, password, phoneNumber);
+
+        int m;
+        scanf("%d", &m);
+        for(int j = 0; j < m; ++j){
+            int a;
+            scanf("%d", &a);
+            addIntListHead(&middium -> viewMsgList, a);
+        }
+        scanf("%d", &m);
+        for(int j = 0; j < m; ++j){
+            int a;
+            scanf("%d", &a);
+            addIntListHead(&middium -> rentMsgList, a);
+        }
+    }
+    return;
+}
+void inputUser(){
+    int n;
+    scanf("%d", &n);
+    char name[20], password[20], phoneNumber[20];
+    int id;
+    for(int i = 0; i < n; ++i){
+        gets(name);
+        scanf("%d", &id);
+        gets(password);
+        gets(phoneNumber);
+        struct User* user = addUser(name, password, phoneNumber);
+
+        int m;
+        scanf("%d", &m);
+        for(int j = 0; j < m; ++j){
+            int a;
+            scanf("%d", &a);
+            addIntListHead(&user -> viewMsgList, a);
+        }
+        scanf("%d", &m);
+        for(int j = 0; j < m; ++j){
+            int a;
+            scanf("%d", &a);
+            addIntListHead(&user -> rentMsgList, a);
+        }
+    }
+}
+void inputVMsg(){
+    int n;
+    scanf("%d", &n);
+    int id, houseId, userId, middiumId, state;
+    struct Date t;
+    for(int i = 0; i < n; ++i){
+        scanf("%d", &id);
+        scanf("%d%d%d", &t.year, &t.month, &t.day);
+        scanf("%d", &houseId);
+        scanf("%d", &userId);
+        scanf("%d", &middiumId);
+        scanf("%d", &state);
+        struct House* house = (struct House*)getVoidTreapNodeData(&houseTreap, houseId);
+        struct Middium* middium = (struct Middium*)getVoidTreapNodeData(&middiumTreap, middiumId);
+        struct User* user = (struct User*)getVoidTreapNodeData(&userTreap, userId);
+        struct ViewHouseMsg* msg = viewHouse(user, house, middium, t);
+        msg -> state = state;
+    }
+    return;
+}
+void inputRMsg(){
+    int n;
+    scanf("%d", &n);
+    int id, houseId, userId, middiumId;
+    struct Date s, t;
+    for(int i = 0; i < n; ++i){
+        scanf("%d", &id);
+        scanf("%d%d%d", &t.year, &t.month, &t.day);
+        scanf("%d%d%d", &s.year, &s.month, &s.day);
+        scanf("%d", &houseId);
+        scanf("%d", &userId);
+        scanf("%d", &middiumId);
+        struct House* house = (struct House*)getVoidTreapNodeData(&houseTreap, houseId);
+        struct Middium* middium = (struct Middium*)getVoidTreapNodeData(&middiumTreap, middiumId);
+        struct User* user = (struct User*)getVoidTreapNodeData(&userTreap, userId);
+        rentHouse(user, house, middium, s, t);
+    }
+    return;
+}
+void inputSystem(char fileName[]){
+    freopen(fileName, "r", stdin);
+    inputTag();
+    inputPlaceTree();
+    inputHouse();
+    freopen("CON", "r", stdin);
 }
 void quitSystem(){
     outputSystem("data.out");
