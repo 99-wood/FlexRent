@@ -5,6 +5,7 @@
         "typedefine.h": "c",
         "head.h": "c",
         "admin.h": "c",
-        "voidtreap.h": "c"
+        "voidtreap.h": "c",
+        "date.h": "c"
     }
 }

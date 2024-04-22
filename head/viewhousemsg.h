@@ -15,11 +15,11 @@ struct VoidList vMsgList;
 struct VoidTreap vMsgTreap;
 struct ViewHouseMsg{
     int id;
+    struct Date reqTime;
+    enum ViewHouseMsgState state;
     int houseId;
     int userId;
     int middiumId;
-    struct Date reqTime;
-    enum ViewHouseMsgState state;
 };
 
 // struct VHMListNode{
