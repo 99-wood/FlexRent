@@ -7,6 +7,7 @@
 #include "user.h"
 #include "head.h"
 #include "windows.h"
+#include "ui.h"
 
 int __L, __R;
 
@@ -16,7 +17,7 @@ void sort(void* val[], int l, int r, bool (*cmp)(void*, void*)){
     int mid = (l + r) >> 1;
     sort(val, l, mid, cmp);
     sort(val, mid + 1, r, cmp);
-    void* tmp[] = malloc(sizeof(void*) * (r + 1));
+    void** tmp = (void*)malloc(sizeof(void*) * (r + 1));
     int px = l, py = mid + 1, p = l;
     while(px <= mid && py <= r){
         if(cmp(val[px], val[py])){
@@ -32,9 +33,12 @@ void sort(void* val[], int l, int r, bool (*cmp)(void*, void*)){
     free(tmp);
     return;
 }
-bool 
+
 
 /*Admin*/
+char* getAdminPassword(){
+    return admin.password;
+}
 void setAdminPassword(char newPassword[]){
     free(admin.password);
     int len = strlen(newPassword);
@@ -163,11 +167,12 @@ struct RentHouseMsg* newRentHouseMsg(struct User* user, struct House* house, str
     struct RentHouseMsg* msg = (struct RentHouseMsg*)malloc(sizeof(struct RentHouseMsg));
     msg -> houseId = house -> id;
     msg -> userId = user -> id;
+    msg -> middiumId = middium -> id;
     msg -> begin = begin;
     msg -> end = end;
     msg -> id = cntRentMsg++;
-    addVoidListHead(&vMsgList, msg);
-    addVoidTreapNode(&vMsgTreap, msg, msg -> id);
+    addVoidListHead(&rMsgList, msg);
+    addVoidTreapNode(&rMsgTreap, msg, msg -> id);
     addIntListHead(&user -> rentMsgList, msg -> id);
     addIntListHead(&house -> rentMsgList, msg -> id);
     addIntListHead(&middium -> rentMsgList, msg -> id);
@@ -181,15 +186,40 @@ void rentHouse(struct User* user, struct House* house, struct Middium* middium, 
 }
 
 /*middium*/
-struct Middium* addMiddium(char name[], char passord[], char phoneNumber[]){
+struct Middium* addMiddium(char name[], char password[], char phoneNumber[]){
     struct Middium* middium = (struct Middium*)malloc(sizeof(struct Middium));
-    middium -> password = (char*)malloc(sizeof(char) * (strlen(passord) + 1));
+    middium -> id = cntMiddium++;
+    middium -> name = (char*)malloc(sizeof(char) * (strlen(name) + 1));
+    middium -> password = (char*)malloc(sizeof(char) * (strlen(password) + 1));
     middium -> phoneNumber = (char*)malloc(sizeof(char) * (strlen(phoneNumber) + 1));
+    strcpy(middium -> name, name);
+    strcpy(middium -> password, password);
     initIntList(&middium -> viewMsgList);
     initIntList(&middium -> rentMsgList);
+    addVoidListHead(&middiumList, middium);
+    addVoidTreapNode(&middiumTreap, middium, middium -> id);
+    return middium;
+}
+/*user*/
+
+struct User* addUser(char name[], char password[], char phoneNumber[]){
+    struct User* user = (struct User*)malloc(sizeof(struct User));
+    user -> id = cntUser++;
+    user -> name = (char*)malloc(sizeof(char) * (strlen(name) + 1));
+    user -> password = (char*)malloc(sizeof(char) * (strlen(password) + 1));
+    user -> phoneNumber = (char*)malloc(sizeof(char) * (strlen(phoneNumber) + 1));
+    strcpy(user -> name, name);
+    strcpy(user -> password, password);
+    strcpy(user -> phoneNumber, phoneNumber);
+    initIntList(&user -> viewMsgList);
+    initIntList(&user -> rentMsgList);
+    addVoidListHead(&userList, user);
+    addVoidTreapNode(&userTreap, user, user -> id);
+    return user;
 }
 
 /*init*/
+char* op1[] = {"nihao", "denglu", "register", "exit"};
 void initSystem(){
     setAdminPassword("123456");
     // initVoidTreap(&rentHouseMsg);
@@ -197,7 +227,8 @@ void initSystem(){
     initVoidList(&vMsgList);
     initVoidTreap(&rMsgTreap);
     initVoidList(&rMsgList);
-    // initVoidTreap(&users);
+    initVoidTreap(&userTreap);
+    initVoidList(&userList);
     initVoidTreap(&middiumTreap);
     initVoidList(&middiumList);
     initVoidTreap(&houseTreap);

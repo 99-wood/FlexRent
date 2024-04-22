@@ -89,6 +89,7 @@ CMakeFiles/FlexRent.dir/src/main.c.obj: D:/code/FlexRent/src/main.c \
   D:/code/FlexRent/head/renthousemsg.h \
   D:/code/FlexRent/head/tag.h \
   D:/code/FlexRent/head/typedefine.h \
+  D:/code/FlexRent/head/ui.h \
   D:/code/FlexRent/head/user.h \
   D:/code/FlexRent/head/viewhousemsg.h \
   D:/code/FlexRent/head/voidlist.h \
@@ -100,6 +101,7 @@ CMakeFiles/FlexRent.dir/src/main.c.obj: D:/code/FlexRent/src/main.c \
   D:/MinGW/include/cderr.h \
   D:/MinGW/include/cguid.h \
   D:/MinGW/include/commdlg.h \
+  D:/MinGW/include/conio.h \
   D:/MinGW/include/dbt.h \
   D:/MinGW/include/dde.h \
   D:/MinGW/include/ddeml.h \
@@ -250,8 +252,6 @@ D:/MinGW/include/msvcrtver.h:
 
 D:/MinGW/include/stdio.h:
 
-D:/MinGW/include/rpc.h:
-
 D:/MinGW/include/nb30.h:
 
 D:/MinGW/include/oaidl.h:
@@ -302,8 +302,6 @@ D:/code/FlexRent/head/hashtreap.h:
 
 D:/code/FlexRent/src/intlist.c:
 
-D:/MinGW/include/pshpack4.h:
-
 D:/MinGW/include/poppack.h:
 
 D:/MinGW/include/dbt.h:
@@ -311,6 +309,8 @@ D:/MinGW/include/dbt.h:
 D:/code/FlexRent/src/main.c:
 
 D:/code/FlexRent/head/head.h:
+
+D:/MinGW/include/conio.h:
 
 D:/code/FlexRent/head/viewhousemsg.h:
 
@@ -321,6 +321,10 @@ D:/code/FlexRent/head/house.h:
 D:/code/FlexRent/head/place.h:
 
 D:/code/FlexRent/head/renthousemsg.h:
+
+D:/MinGW/include/lzexpand.h:
+
+D:/code/FlexRent/head/ui.h:
 
 D:/MinGW/include/mmsystem.h:
 
@@ -344,8 +348,6 @@ D:/MinGW/include/cguid.h:
 
 D:/MinGW/include/commdlg.h:
 
-D:/MinGW/include/lzexpand.h:
-
 D:/MinGW/include/nspapi.h:
 
 D:/MinGW/include/olectlid.h:
@@ -353,6 +355,10 @@ D:/MinGW/include/olectlid.h:
 D:/MinGW/include/objfwd.h:
 
 D:/MinGW/include/oleauto.h:
+
+D:/MinGW/include/pshpack4.h:
+
+D:/MinGW/include/rpc.h:
 
 D:/MinGW/include/rpcdce.h:
 

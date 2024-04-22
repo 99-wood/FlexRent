@@ -5,6 +5,8 @@
 #include "viewhousemsg.h"
 #include "renthousemsg.h"
 #include "intlist.h"
+#include "voidtreap.h"
+#include "voidlist.h"
 // //登陆
 // bool UserLoad();
 // //用户改电话
@@ -21,6 +23,11 @@
 // bool QueryRes();
 // //用户租房信息查询
 // bool QueryRent();
+
+struct VoidList userList;
+struct VoidTreap userTreap;
+int cntUser;
+
 struct User{
     char * name;
     int id;
@@ -30,5 +37,5 @@ struct User{
     struct IntList rentMsgList;
 };
 
-void modifyPassword(struct User * user, char * password);
+// void modifyPassword(struct User * user, char * password);
 #endif

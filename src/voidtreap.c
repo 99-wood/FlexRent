@@ -45,7 +45,7 @@ void splitVoidTreap1(struct VoidTreapNode * p, int id, struct VoidTreapNode** x,
         *x = *y = NULL;
         return;
     }
-    if(p -> id < id){
+    if(p -> id <= id){
         *x = p;
         splitVoidTreap1(p -> r, id, &((*x) -> r), y);
         return;
@@ -72,6 +72,7 @@ void * getVoidTreapNodeData(struct VoidTreap * treap, int id){
     splitVoidTreap1(y, id, &y, &z);
     void * ans = NULL;
     if(y) ans = y -> data;
+    // printf("\n%d\n", y -> data);
     treap -> root = mergeVoidTreap(mergeVoidTreap(x, y), z);
     return ans;
 }
