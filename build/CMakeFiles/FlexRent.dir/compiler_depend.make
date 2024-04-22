@@ -77,6 +77,7 @@ CMakeFiles/FlexRent.dir/src/intlist.c.obj: D:/code/FlexRent/src/intlist.c \
 
 CMakeFiles/FlexRent.dir/src/main.c.obj: D:/code/FlexRent/src/main.c \
   D:/code/FlexRent/head/admin.h \
+  D:/code/FlexRent/head/check.h \
   D:/code/FlexRent/head/core.h \
   D:/code/FlexRent/head/date.h \
   D:/code/FlexRent/head/hash.h \
@@ -140,6 +141,7 @@ CMakeFiles/FlexRent.dir/src/main.c.obj: D:/code/FlexRent/src/main.c \
   D:/MinGW/include/strings.h \
   D:/MinGW/include/sys/types.h \
   D:/MinGW/include/sys/bsdtypes.h \
+  D:/MinGW/include/sys/stat.h \
   D:/MinGW/include/sys/time.h \
   D:/MinGW/include/sys/types.h \
   D:/MinGW/include/time.h \
@@ -165,34 +167,6 @@ CMakeFiles/FlexRent.dir/src/main.c.obj: D:/code/FlexRent/src/main.c \
   D:/MinGW/include/winuser.h \
   D:/MinGW/include/winver.h \
   D:/MinGW/include/wtypes.h \
-  D:/MinGW/lib/gcc/mingw32/6.3.0/include/stdarg.h \
-  D:/MinGW/lib/gcc/mingw32/6.3.0/include/stdbool.h \
-  D:/MinGW/lib/gcc/mingw32/6.3.0/include/stddef.h
-
-CMakeFiles/FlexRent.dir/src/place.c.obj: D:/code/FlexRent/src/place.c \
-  D:/code/FlexRent/head/date.h \
-  D:/code/FlexRent/head/hash.h \
-  D:/code/FlexRent/head/hashtreap.h \
-  D:/code/FlexRent/head/house.h \
-  D:/code/FlexRent/head/intlist.h \
-  D:/code/FlexRent/head/place.h \
-  D:/code/FlexRent/head/renthousemsg.h \
-  D:/code/FlexRent/head/typedefine.h \
-  D:/code/FlexRent/head/viewhousemsg.h \
-  D:/code/FlexRent/head/voidlist.h \
-  D:/code/FlexRent/head/voidtreap.h \
-  D:/MinGW/include/_mingw.h \
-  D:/MinGW/include/msvcrtver.h \
-  D:/MinGW/include/sdkddkver.h \
-  D:/MinGW/include/stdio.h \
-  D:/MinGW/include/stdlib.h \
-  D:/MinGW/include/string.h \
-  D:/MinGW/include/strings.h \
-  D:/MinGW/include/sys/types.h \
-  D:/MinGW/include/sys/types.h \
-  D:/MinGW/include/time.h \
-  D:/MinGW/include/w32api.h \
-  D:/MinGW/include/wchar.h \
   D:/MinGW/lib/gcc/mingw32/6.3.0/include/stdarg.h \
   D:/MinGW/lib/gcc/mingw32/6.3.0/include/stdbool.h \
   D:/MinGW/lib/gcc/mingw32/6.3.0/include/stddef.h
@@ -237,8 +211,6 @@ D:/code/FlexRent/src/admin.c:
 D:/code/FlexRent/head/middium.h:
 
 D:/code/FlexRent/head/admin.h:
-
-D:/MinGW/include/prsht.h:
 
 D:/MinGW/include/basetyps.h:
 
@@ -300,6 +272,8 @@ D:/MinGW/include/wchar.h:
 
 D:/code/FlexRent/src/hashtreap.c:
 
+D:/code/FlexRent/head/check.h:
+
 D:/code/FlexRent/head/hashtreap.h:
 
 D:/code/FlexRent/src/intlist.c:
@@ -356,7 +330,7 @@ D:/MinGW/include/objfwd.h:
 
 D:/MinGW/include/oleauto.h:
 
-D:/code/FlexRent/src/place.c:
+D:/MinGW/include/prsht.h:
 
 D:/MinGW/include/pshpack2.h:
 
@@ -379,6 +353,8 @@ D:/MinGW/include/rpcnterr.h:
 D:/MinGW/include/shellapi.h:
 
 D:/MinGW/include/sys/bsdtypes.h:
+
+D:/MinGW/include/sys/stat.h:
 
 D:/MinGW/include/sys/time.h:
 

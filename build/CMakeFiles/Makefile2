@@ -81,12 +81,12 @@ clean: CMakeFiles/FlexRent.dir/clean
 CMakeFiles/FlexRent.dir/all:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/FlexRent.dir/build.make CMakeFiles/FlexRent.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/FlexRent.dir/build.make CMakeFiles/FlexRent.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=D:/code/FlexRent/build/CMakeFiles --progress-num=1,2,3,4,5,6,7,8,9,10 "Built target FlexRent"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=D:/code/FlexRent/build/CMakeFiles --progress-num=1,2,3,4,5,6,7,8,9 "Built target FlexRent"
 .PHONY : CMakeFiles/FlexRent.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/FlexRent.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start D:/code/FlexRent/build/CMakeFiles 10
+	$(CMAKE_COMMAND) -E cmake_progress_start D:/code/FlexRent/build/CMakeFiles 9
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/FlexRent.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start D:/code/FlexRent/build/CMakeFiles 0
 .PHONY : CMakeFiles/FlexRent.dir/rule

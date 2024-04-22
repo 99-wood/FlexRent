@@ -201,3 +201,15 @@ struct VoidList* filterVoidList(struct VoidList* list, bool (*check)(void*)) {
 
     return filteredList;
 }
+
+
+void clearVoidList(struct VoidList* list){
+    for(struct VoidListNode * p = list -> head; p != NULL;){
+        struct VoidListNode * nxt = p -> nxt;
+        free(p);
+        p = nxt;
+    }
+    list -> head = NULL;
+    list -> cnt = 0;
+    return;
+}

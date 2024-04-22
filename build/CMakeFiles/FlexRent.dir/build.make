@@ -159,26 +159,11 @@ CMakeFiles/FlexRent.dir/src/main.c.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling C source to assembly CMakeFiles/FlexRent.dir/src/main.c.s"
 	D:/MinGW/bin/gcc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S D:/code/FlexRent/src/main.c -o CMakeFiles/FlexRent.dir/src/main.c.s
 
-CMakeFiles/FlexRent.dir/src/place.c.obj: CMakeFiles/FlexRent.dir/flags.make
-CMakeFiles/FlexRent.dir/src/place.c.obj: CMakeFiles/FlexRent.dir/includes_C.rsp
-CMakeFiles/FlexRent.dir/src/place.c.obj: D:/code/FlexRent/src/place.c
-CMakeFiles/FlexRent.dir/src/place.c.obj: CMakeFiles/FlexRent.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=D:/code/FlexRent/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building C object CMakeFiles/FlexRent.dir/src/place.c.obj"
-	D:/MinGW/bin/gcc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/FlexRent.dir/src/place.c.obj -MF CMakeFiles/FlexRent.dir/src/place.c.obj.d -o CMakeFiles/FlexRent.dir/src/place.c.obj -c D:/code/FlexRent/src/place.c
-
-CMakeFiles/FlexRent.dir/src/place.c.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing C source to CMakeFiles/FlexRent.dir/src/place.c.i"
-	D:/MinGW/bin/gcc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E D:/code/FlexRent/src/place.c > CMakeFiles/FlexRent.dir/src/place.c.i
-
-CMakeFiles/FlexRent.dir/src/place.c.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling C source to assembly CMakeFiles/FlexRent.dir/src/place.c.s"
-	D:/MinGW/bin/gcc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S D:/code/FlexRent/src/place.c -o CMakeFiles/FlexRent.dir/src/place.c.s
-
 CMakeFiles/FlexRent.dir/src/voidlist.c.obj: CMakeFiles/FlexRent.dir/flags.make
 CMakeFiles/FlexRent.dir/src/voidlist.c.obj: CMakeFiles/FlexRent.dir/includes_C.rsp
 CMakeFiles/FlexRent.dir/src/voidlist.c.obj: D:/code/FlexRent/src/voidlist.c
 CMakeFiles/FlexRent.dir/src/voidlist.c.obj: CMakeFiles/FlexRent.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=D:/code/FlexRent/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building C object CMakeFiles/FlexRent.dir/src/voidlist.c.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=D:/code/FlexRent/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building C object CMakeFiles/FlexRent.dir/src/voidlist.c.obj"
 	D:/MinGW/bin/gcc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/FlexRent.dir/src/voidlist.c.obj -MF CMakeFiles/FlexRent.dir/src/voidlist.c.obj.d -o CMakeFiles/FlexRent.dir/src/voidlist.c.obj -c D:/code/FlexRent/src/voidlist.c
 
 CMakeFiles/FlexRent.dir/src/voidlist.c.i: cmake_force
@@ -193,7 +178,7 @@ CMakeFiles/FlexRent.dir/src/voidtreap.c.obj: CMakeFiles/FlexRent.dir/flags.make
 CMakeFiles/FlexRent.dir/src/voidtreap.c.obj: CMakeFiles/FlexRent.dir/includes_C.rsp
 CMakeFiles/FlexRent.dir/src/voidtreap.c.obj: D:/code/FlexRent/src/voidtreap.c
 CMakeFiles/FlexRent.dir/src/voidtreap.c.obj: CMakeFiles/FlexRent.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=D:/code/FlexRent/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Building C object CMakeFiles/FlexRent.dir/src/voidtreap.c.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=D:/code/FlexRent/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building C object CMakeFiles/FlexRent.dir/src/voidtreap.c.obj"
 	D:/MinGW/bin/gcc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/FlexRent.dir/src/voidtreap.c.obj -MF CMakeFiles/FlexRent.dir/src/voidtreap.c.obj.d -o CMakeFiles/FlexRent.dir/src/voidtreap.c.obj -c D:/code/FlexRent/src/voidtreap.c
 
 CMakeFiles/FlexRent.dir/src/voidtreap.c.i: cmake_force
@@ -212,7 +197,6 @@ FlexRent_OBJECTS = \
 "CMakeFiles/FlexRent.dir/src/hashtreap.c.obj" \
 "CMakeFiles/FlexRent.dir/src/intlist.c.obj" \
 "CMakeFiles/FlexRent.dir/src/main.c.obj" \
-"CMakeFiles/FlexRent.dir/src/place.c.obj" \
 "CMakeFiles/FlexRent.dir/src/voidlist.c.obj" \
 "CMakeFiles/FlexRent.dir/src/voidtreap.c.obj"
 
@@ -225,13 +209,12 @@ D:/code/FlexRent/bin/FlexRent.exe: CMakeFiles/FlexRent.dir/src/hash.c.obj
 D:/code/FlexRent/bin/FlexRent.exe: CMakeFiles/FlexRent.dir/src/hashtreap.c.obj
 D:/code/FlexRent/bin/FlexRent.exe: CMakeFiles/FlexRent.dir/src/intlist.c.obj
 D:/code/FlexRent/bin/FlexRent.exe: CMakeFiles/FlexRent.dir/src/main.c.obj
-D:/code/FlexRent/bin/FlexRent.exe: CMakeFiles/FlexRent.dir/src/place.c.obj
 D:/code/FlexRent/bin/FlexRent.exe: CMakeFiles/FlexRent.dir/src/voidlist.c.obj
 D:/code/FlexRent/bin/FlexRent.exe: CMakeFiles/FlexRent.dir/src/voidtreap.c.obj
 D:/code/FlexRent/bin/FlexRent.exe: CMakeFiles/FlexRent.dir/build.make
 D:/code/FlexRent/bin/FlexRent.exe: CMakeFiles/FlexRent.dir/linkLibs.rsp
 D:/code/FlexRent/bin/FlexRent.exe: CMakeFiles/FlexRent.dir/objects1.rsp
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=D:/code/FlexRent/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_10) "Linking C executable D:/code/FlexRent/bin/FlexRent.exe"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=D:/code/FlexRent/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Linking C executable D:/code/FlexRent/bin/FlexRent.exe"
 	D:/CMake/bin/cmake.exe -E rm -f CMakeFiles/FlexRent.dir/objects.a
 	D:/MinGW/bin/ar.exe qc CMakeFiles/FlexRent.dir/objects.a @CMakeFiles/FlexRent.dir/objects1.rsp
 	D:/MinGW/bin/gcc.exe -g -Wl,--whole-archive CMakeFiles/FlexRent.dir/objects.a -Wl,--no-whole-archive -o D:/code/FlexRent/bin/FlexRent.exe -Wl,--out-implib,D:/code/FlexRent/bin/libFlexRent.dll.a -Wl,--major-image-version,0,--minor-image-version,0 @CMakeFiles/FlexRent.dir/linkLibs.rsp

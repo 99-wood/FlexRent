@@ -50,4 +50,6 @@ void delVoidListTail(struct VoidList * list);
 // 筛选满足条件的节点
 struct VoidList * filterVoidList(struct VoidList * list, bool (*check)(void*));
 
+void clearVoidList(struct VoidList* list);
+
 #endif

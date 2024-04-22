@@ -111,3 +111,15 @@ struct IntList * filterIntList(struct IntList * list, bool (* check)(int)){
     free(array);
     return ans;
 }
+
+
+void clearIntList(struct IntList * list){
+    for(struct IntListNode * p = list -> head; p != NULL;){
+        struct IntListNode * nxt = p -> nxt;
+        free(p);
+        p = nxt;
+    }
+    list -> head = NULL;
+    list -> cnt = 0;
+    return;
+}

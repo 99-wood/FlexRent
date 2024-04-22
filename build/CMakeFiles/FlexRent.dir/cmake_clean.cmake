@@ -11,8 +11,6 @@ file(REMOVE_RECURSE
   "CMakeFiles/FlexRent.dir/src/intlist.c.obj.d"
   "CMakeFiles/FlexRent.dir/src/main.c.obj"
   "CMakeFiles/FlexRent.dir/src/main.c.obj.d"
-  "CMakeFiles/FlexRent.dir/src/place.c.obj"
-  "CMakeFiles/FlexRent.dir/src/place.c.obj.d"
   "CMakeFiles/FlexRent.dir/src/voidlist.c.obj"
   "CMakeFiles/FlexRent.dir/src/voidlist.c.obj.d"
   "CMakeFiles/FlexRent.dir/src/voidtreap.c.obj"

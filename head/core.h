@@ -10,6 +10,7 @@
 #include "ui.h"
 #include "viewhousemsg.h"
 #include "renthousemsg.h"
+#include <sys/stat.h>
 
 int __L, __R;
 
@@ -19,7 +20,7 @@ void sort(void* val[], int l, int r, bool (*cmp)(void*, void*)){
     int mid = (l + r) >> 1;
     sort(val, l, mid, cmp);
     sort(val, mid + 1, r, cmp);
-    void** tmp = (void*)malloc(sizeof(void*) * (r + 1));
+    void** tmp = (void**)malloc(sizeof(void*) * (r + 1));
     int px = l, py = mid + 1, p = l;
     while(px <= mid && py <= r){
         if(cmp(val[px], val[py])){
@@ -29,7 +30,7 @@ void sort(void* val[], int l, int r, bool (*cmp)(void*, void*)){
             tmp[p++] = val[py++];
         }
     }
-    while(px <= mid) tmp[p++] = val[p++] = val[px++];
+    while(px <= mid) tmp[p++] = val[px++];
     while(py <= r) tmp[p++] = val[py++];
     for(int i = l; i <= r; ++i) val[i] = tmp[i];
     free(tmp);
@@ -100,6 +101,9 @@ struct House* addHouse(char ownerName[], char ownerPhone[], char placeName[], ch
     if(place == NULL || place -> level < 3 || S <= 0) return NULL;
     struct House* house = (struct House*)malloc(sizeof(struct House));
     house -> price = -1;
+    house -> direction = -1;
+    house -> decorationLevel = -1;
+    house -> houseType = -1;
     house -> S = S;
     house -> floor = floor;
     house -> id = cntHouse++;
@@ -115,6 +119,7 @@ struct House* addHouse(char ownerName[], char ownerPhone[], char placeName[], ch
     initIntList(&(house -> rentMsgList));
     addVoidListHead(&(place -> sons), house);
     addVoidTreapNode(&houseTreap, house, house -> id);
+    addVoidListHead(&houseList, house);
     return house;
 }
 void delHouse(struct House* house){
@@ -135,11 +140,20 @@ void setPrice(struct House* house, int price){
 void setHouseType(struct House* house, int tagId){
     if(house != NULL) house -> houseType = tagId;
 }
+void setOwner(struct House* house, char ownerName[], char ownerPhone[]){
+    free(house -> ownerName);
+    free(house -> ownerPhone);
+    house -> ownerName = (char*)malloc(sizeof(char) * (strlen(ownerName) + 1));
+    house -> ownerPhone = (char*)malloc(sizeof(char) * (strlen(ownerPhone) + 1));
+    strcpy(house -> ownerName, ownerName);
+    strcpy(house -> ownerPhone, ownerPhone);
+    return;
+}
 void printHouse(struct House* house){
     if(house == NULL) return;
     if(house -> state == deleted) return;
     printf("id: %05d Area: %3d city: %s address: %s", house -> id, house -> S, house -> father -> father -> name, house -> address);
-    if(house -> price != -1) printf(" price:", house -> price);
+    if(house -> price != -1) printf(" price: %d", house -> price);
     printf(" owner: %s owner'sPhone: %s", house -> ownerName, house -> ownerPhone);
 }
 // void printAll(struct Place* place)
@@ -254,25 +268,6 @@ struct User* addUser(char name[], char password[], char phoneNumber[]){
     return user;
 }
 
-/*init*/
-void initSystem(){
-    setAdminPassword("123456");
-    // initVoidTreap(&rentHouseMsg);
-    initVoidTreap(&vMsgTreap);
-    initVoidList(&vMsgList);
-    initVoidTreap(&rMsgTreap);
-    initVoidList(&rMsgList);
-    initVoidTreap(&userTreap);
-    initVoidList(&userList);
-    initVoidTreap(&middiumTreap);
-    initVoidList(&middiumList);
-    initVoidTreap(&houseTreap);
-    initHashTreap(&placeTraep);
-    initVoidList(&HouseList);
-    placeRoot.name = "root";
-    placeRoot.level = 0;
-}
-
 void outputTag(){
     printf("%d\n", tagCnt);
     for(int i = 0; i < tagCnt; ++i){
@@ -285,14 +280,20 @@ void outputPlaceTree(struct Place* rt){
     if(rt -> level != 0){
         printf("%s\n%s\n", rt -> father -> name, rt -> name);
     }
+    if(rt -> level == 3) return;
     for(struct VoidListNode * p = rt -> sons.head; p != NULL; p = p -> nxt){
         outputPlaceTree((struct Place *)(p -> value));
     }
     return;
 }
 void outputHouse(){
+    printf("%d\n", cntHouse);
     for(int i = 0; i < cntHouse; ++i){
+        // int a;
+        // scanf("%d", &a);
         struct House* house = (struct House*)getVoidTreapNodeData(&houseTreap, i);
+        // printf("%d\n", house);
+        // getchar();
         printf("%d\n", i);
         printf("%d\n", house -> price);
         printf("%d\n", house -> S);
@@ -400,7 +401,7 @@ void outputSystem(char fileName[]){
 }
 void inputTag(){
     int n;
-    scanf("%d", &n);
+    scanf("%d\n", &n);
     for(int i = 0; i < n; ++i){
         char name[20];
         gets(name);
@@ -410,33 +411,38 @@ void inputTag(){
 }
 void inputPlaceTree(){
     char name[20], father[20];
-    gets(name);
     gets(father);
+    gets(name);
     while(strcmp(name, "FINISH") != 0){
+        // printf("%s\n", father);
+        // getchar();
+        // printf("%s\n", name);
+        // getchar();
         addPlace(name, father);
-        gets(name);
         gets(father);
+        gets(name);
     }
     return;
 }
 void inputHouse(){
     int n;
-    scanf("%d", &n);
+    scanf("%d\n", &n);
     int id, price, S, floor, state, direction, decorationLevel, houseType;
     char ownerName[20], ownerPhone[20], father[20], address[20];
     for(int i = 0; i < n; ++i){
-        scanf("%d", &id);
-        scanf("%d", &price);
-        scanf("%d", &floor);
-        scanf("%d", &state);
-        scanf("%d", &S);
+        scanf("%d\n", &id);
+        scanf("%d\n", &price);
+        scanf("%d\n", &S);
+        scanf("%d\n", &floor);
+        scanf("%d\n", &state);
+        printf("|%d|\n", S);
         gets(ownerName);
         gets(ownerPhone);
         gets(father);
         gets(address);
-        scanf("%d", &direction);
-        scanf("%d", &decorationLevel);
-        scanf("%d", &houseType);
+        scanf("%d\n", &direction);
+        scanf("%d\n", &decorationLevel);
+        scanf("%d\n", &houseType);
         struct House* house = addHouse(ownerName, ownerPhone, father, address, S, floor);
         setPrice(house,price);
         house -> state = state;
@@ -444,16 +450,16 @@ void inputHouse(){
         setdecorationLevel(house, decorationLevel);
         setHouseType(house, houseType);
         int m;
-        scanf("%d", &m);
+        scanf("%d\n", &m);
         for(int j = 0; j < m; ++j){
             int a;
-            scanf("%d", &a);
+            scanf("%d\n", &a);
             addIntListHead(&house -> viewMsgList, a);
         }
-        scanf("%d", &m);
+        scanf("%d\n", &m);
         for(int j = 0; j < m; ++j){
             int a;
-            scanf("%d", &a);
+            scanf("%d\n", &a);
             addIntListHead(&house -> rentMsgList, a);
         }
     }
@@ -461,27 +467,27 @@ void inputHouse(){
 }
 void inputMiddium(){
     int n;
-    scanf("%d", &n);
+    scanf("%d\n", &n);
     int id;
     char name[20], password[20], phoneNumber[20];
     for(int i = 0; i < n; ++i){
         gets(name);
-        scanf("%d", &id);
+        scanf("%d\n", &id);
         gets(password);
         gets(phoneNumber);
         struct Middium* middium = addMiddium(name, password, phoneNumber);
 
         int m;
-        scanf("%d", &m);
+        scanf("%d\n", &m);
         for(int j = 0; j < m; ++j){
             int a;
-            scanf("%d", &a);
+            scanf("%d\n", &a);
             addIntListHead(&middium -> viewMsgList, a);
         }
-        scanf("%d", &m);
+        scanf("%d\n", &m);
         for(int j = 0; j < m; ++j){
             int a;
-            scanf("%d", &a);
+            scanf("%d\n", &a);
             addIntListHead(&middium -> rentMsgList, a);
         }
     }
@@ -489,43 +495,43 @@ void inputMiddium(){
 }
 void inputUser(){
     int n;
-    scanf("%d", &n);
+    scanf("%d\n", &n);
     char name[20], password[20], phoneNumber[20];
     int id;
     for(int i = 0; i < n; ++i){
         gets(name);
-        scanf("%d", &id);
+        scanf("%d\n", &id);
         gets(password);
         gets(phoneNumber);
         struct User* user = addUser(name, password, phoneNumber);
 
         int m;
-        scanf("%d", &m);
+        scanf("%d\n", &m);
         for(int j = 0; j < m; ++j){
             int a;
-            scanf("%d", &a);
+            scanf("%d\n", &a);
             addIntListHead(&user -> viewMsgList, a);
         }
-        scanf("%d", &m);
+        scanf("%d\n", &m);
         for(int j = 0; j < m; ++j){
             int a;
-            scanf("%d", &a);
+            scanf("%d\n", &a);
             addIntListHead(&user -> rentMsgList, a);
         }
     }
 }
 void inputVMsg(){
     int n;
-    scanf("%d", &n);
+    scanf("%d\n", &n);
     int id, houseId, userId, middiumId, state;
     struct Date t;
     for(int i = 0; i < n; ++i){
-        scanf("%d", &id);
-        scanf("%d%d%d", &t.year, &t.month, &t.day);
-        scanf("%d", &houseId);
-        scanf("%d", &userId);
-        scanf("%d", &middiumId);
-        scanf("%d", &state);
+        scanf("%d\n", &id);
+        scanf("%d%d%d\n", &t.year, &t.month, &t.day);
+        scanf("%d\n", &houseId);
+        scanf("%d\n", &userId);
+        scanf("%d\n", &middiumId);
+        scanf("%d\n", &state);
         struct House* house = (struct House*)getVoidTreapNodeData(&houseTreap, houseId);
         struct Middium* middium = (struct Middium*)getVoidTreapNodeData(&middiumTreap, middiumId);
         struct User* user = (struct User*)getVoidTreapNodeData(&userTreap, userId);
@@ -536,16 +542,16 @@ void inputVMsg(){
 }
 void inputRMsg(){
     int n;
-    scanf("%d", &n);
+    scanf("%d\n", &n);
     int id, houseId, userId, middiumId;
     struct Date s, t;
     for(int i = 0; i < n; ++i){
-        scanf("%d", &id);
-        scanf("%d%d%d", &t.year, &t.month, &t.day);
-        scanf("%d%d%d", &s.year, &s.month, &s.day);
-        scanf("%d", &houseId);
-        scanf("%d", &userId);
-        scanf("%d", &middiumId);
+        scanf("%d\n", &id);
+        scanf("%d%d%d\n", &t.year, &t.month, &t.day);
+        scanf("%d%d%d\n", &s.year, &s.month, &s.day);
+        scanf("%d\n", &houseId);
+        scanf("%d\n", &userId);
+        scanf("%d\n", &middiumId);
         struct House* house = (struct House*)getVoidTreapNodeData(&houseTreap, houseId);
         struct Middium* middium = (struct Middium*)getVoidTreapNodeData(&middiumTreap, middiumId);
         struct User* user = (struct User*)getVoidTreapNodeData(&userTreap, userId);
@@ -558,10 +564,49 @@ void inputSystem(char fileName[]){
     inputTag();
     inputPlaceTree();
     inputHouse();
+    inputMiddium();
+    inputUser();
+    inputVMsg();
+    inputRMsg();
     freopen("CON", "r", stdin);
 }
+bool isFileExists(char fileName[]) {
+  struct stat buffer;   
+  return (stat(fileName, &buffer) == 0); 
+}
+/*init*/
+void initSystem(){
+    setAdminPassword("123456");
+    // initVoidTreap(&rentHouseMsg);
+    initVoidTreap(&vMsgTreap);
+    initVoidList(&vMsgList);
+    initVoidTreap(&rMsgTreap);
+    initVoidList(&rMsgList);
+    initVoidTreap(&userTreap);
+    initVoidList(&userList);
+    initVoidTreap(&middiumTreap);
+    initVoidList(&middiumList);
+    initVoidTreap(&houseTreap);
+    initHashTreap(&placeTraep);
+    initVoidList(&houseList);
+    placeRoot.name = "root";
+    placeRoot.level = 0;
+    if(isFileExists("data.out")){
+        inputSystem("data.out");
+    }
+    return;
+}
 void quitSystem(){
-    outputSystem("data.out");
+    printf("Enter \"yes\" to save\n");
+    char input[20];
+    gets(input);
+    if(strcmp(input, "yes") == 0){
+        outputSystem("data.out");
+    }
+    else{
+        outputSystem("CON");
+        getchar();
+    }
     return;
 }
 #endif

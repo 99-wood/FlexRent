@@ -52,4 +52,5 @@ void delIntListTail(struct IntList * list);
 // 筛选满足条件的节点
 struct IntList * filterIntList(struct IntList * list, bool (*check)(int));
 
+void clearIntList(struct IntList * list);
 #endif

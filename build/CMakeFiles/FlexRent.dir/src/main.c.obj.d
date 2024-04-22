@@ -46,4 +46,5 @@ CMakeFiles/FlexRent.dir/src/main.c.obj: D:/code/FlexRent/src/main.c \
  d:\mingw\include\olectlid.h d:\mingw\include\oleauto.h \
  d:\mingw\include\oaidl.h d:\mingw\include\oleidl.h \
  D:/code/FlexRent/head/ui.h d:\mingw\include\conio.h \
- d:\mingw\include\ctype.h d:\mingw\include\wctype.h
+ d:\mingw\include\ctype.h d:\mingw\include\wctype.h \
+ d:\mingw\include\sys\stat.h D:/code/FlexRent/head/check.h

@@ -14,13 +14,13 @@ struct Tag tag[MAX_TAG_CNT];
 int tagCnt;
 
 int addTag(char str[]){
-    if(tagCnt >= MAX_TAG_CNT) return 0;
+    if(tagCnt >= MAX_TAG_CNT) return -1;
     tag[tagCnt].name = (char*)malloc(sizeof(char) * (strlen(str) + 1));
     strcpy(tag[tagCnt].name, str);
     tag[tagCnt].id = tagCnt;
     tag[tagCnt].cnt = 0;
     ++tagCnt;
-    return 0;
+    return tagCnt - 1;
 }
 int findTag(char str[]){
     for(int i = 0; i < tagCnt; ++i){

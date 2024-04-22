@@ -11,8 +11,8 @@ enum HouseState{
     deleted, enable, using
 };
 struct VoidTreap houseTreap;
-struct VoidList HouseList;
-int cntHouse;
+struct VoidList houseList;
+int cntHouse = 0;
 struct House{
     int id; //房源编号
     int price; //租金

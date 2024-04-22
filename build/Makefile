@@ -273,30 +273,6 @@ src/main.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/FlexRent.dir/build.make CMakeFiles/FlexRent.dir/src/main.c.s
 .PHONY : src/main.c.s
 
-src/place.obj: src/place.c.obj
-.PHONY : src/place.obj
-
-# target to build an object file
-src/place.c.obj:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/FlexRent.dir/build.make CMakeFiles/FlexRent.dir/src/place.c.obj
-.PHONY : src/place.c.obj
-
-src/place.i: src/place.c.i
-.PHONY : src/place.i
-
-# target to preprocess a source file
-src/place.c.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/FlexRent.dir/build.make CMakeFiles/FlexRent.dir/src/place.c.i
-.PHONY : src/place.c.i
-
-src/place.s: src/place.c.s
-.PHONY : src/place.s
-
-# target to generate assembly for a file
-src/place.c.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/FlexRent.dir/build.make CMakeFiles/FlexRent.dir/src/place.c.s
-.PHONY : src/place.c.s
-
 src/voidlist.obj: src/voidlist.c.obj
 .PHONY : src/voidlist.obj
 
@@ -372,9 +348,6 @@ help:
 	@echo "... src/main.obj"
 	@echo "... src/main.i"
 	@echo "... src/main.s"
-	@echo "... src/place.obj"
-	@echo "... src/place.i"
-	@echo "... src/place.s"
 	@echo "... src/voidlist.obj"
 	@echo "... src/voidlist.i"
 	@echo "... src/voidlist.s"

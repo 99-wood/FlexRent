@@ -37,12 +37,6 @@
 },
 {
   "directory": "D:/code/FlexRent/build",
-  "command": "D:/MinGW/bin/gcc.exe  @CMakeFiles/FlexRent.dir/includes_C.rsp -g -o CMakeFiles/FlexRent.dir/src/place.c.obj -c D:/code/FlexRent/src/place.c",
-  "file": "D:/code/FlexRent/src/place.c",
-  "output": "CMakeFiles/FlexRent.dir/src/place.c.obj"
-},
-{
-  "directory": "D:/code/FlexRent/build",
   "command": "D:/MinGW/bin/gcc.exe  @CMakeFiles/FlexRent.dir/includes_C.rsp -g -o CMakeFiles/FlexRent.dir/src/voidlist.c.obj -c D:/code/FlexRent/src/voidlist.c",
   "file": "D:/code/FlexRent/src/voidlist.c",
   "output": "CMakeFiles/FlexRent.dir/src/voidlist.c.obj"
