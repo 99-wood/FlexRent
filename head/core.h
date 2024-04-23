@@ -205,13 +205,49 @@ struct ViewHouseMsg* viewHouse(struct User* user, struct House* house, struct Mi
     }
     return newViewHouseMsg(user, house, middium, date);
 }
-void cancalViewHouse(struct ViewHouseMsg* msg){
+void cancelViewHouse(struct ViewHouseMsg* msg){
     if(msg != NULL) msg -> state = cancel;
     return;
 }
 void finishViewHouse(struct ViewHouseMsg* msg){
     if(msg != NULL) msg -> state = finish;
     return;
+}
+void printVMsg(struct ViewHouseMsg* msg){
+    if(msg == NULL) return;
+    printf("id: %05d houseID: %05d agencyID: %05d userID: %05d", msg -> id, msg -> houseId, msg -> middiumId, msg -> userId);
+    printf(" time: %04d-%02d-%02d", msg -> reqTime.year, msg -> reqTime.month, msg -> reqTime.day);
+    if(msg -> state == normal) printf("state: normal");
+    else if(msg -> state == cancel) printf("state: cancel");
+    else if(msg -> state == finish) printf("state: finish");
+    return;
+}
+void printRMsg(struct RentHouseMsg* msg){
+    if(msg == NULL) return;
+    printf("id: %05d houseID: %05d agencyID: %05d userID: %05d", msg -> id, msg -> houseId, msg -> middiumId, msg -> userId);
+    printf(" begin_time: %04d-%02d-%02d end_time: %04d-%02d-%02d", msg -> begin.year, msg -> begin.month, msg -> begin.day, msg -> end.year, msg -> end.month, msg -> end.day);
+    // if(msg -> state == normal) printf("state: normal");
+    // else if(msg -> state == cancel) printf("state: cancel");
+    // else if(msg -> state == finish) printf("state: finish");
+    return;
+}
+struct VoidList* VmsgIdListToVmsgList(struct IntList* list){
+    struct VoidList* ans = (struct VoidList*)malloc(sizeof(struct VoidList));
+    initVoidList(ans);
+    for(struct IntListNode* p = list -> head; p != NULL; p = p -> nxt){
+        struct ViewHouseMsg* val = getVoidTreapNodeData(&vMsgTreap, p -> value);
+        addVoidListHead(ans, val);
+    }
+    return ans;
+}
+struct VoidList* RmsgIdListToRmsgList(struct IntList* list){
+    struct VoidList* ans = (struct VoidList*)malloc(sizeof(struct VoidList));
+    initVoidList(ans);
+    for(struct IntListNode* p = list -> head; p != NULL; p = p -> nxt){
+        struct RentHouseMsg* val = getVoidTreapNodeData(&rMsgTreap, p -> value);
+        addVoidListHead(ans, val);
+    }
+    return ans;
 }
 struct RentHouseMsg* newRentHouseMsg(struct User* user, struct House* house, struct Middium* middium, struct Date begin, struct Date end){
     struct RentHouseMsg* msg = (struct RentHouseMsg*)malloc(sizeof(struct RentHouseMsg));
@@ -250,6 +286,14 @@ struct Middium* addMiddium(char name[], char password[], char phoneNumber[]){
     addVoidTreapNode(&middiumTreap, middium, middium -> id);
     return middium;
 }
+
+void changeMiddiumPassword(struct Middium* middium, char newPassword[]){
+    if(middium == NULL) return;
+    free(middium -> password);
+    middium -> password = (char*)malloc(sizeof(char) * (strlen(newPassword) + 1));
+    strcpy(middium -> password, newPassword);
+    return;
+}
 /*user*/
 
 struct User* addUser(char name[], char password[], char phoneNumber[]){
@@ -267,7 +311,14 @@ struct User* addUser(char name[], char password[], char phoneNumber[]){
     addVoidTreapNode(&userTreap, user, user -> id);
     return user;
 }
-
+void changeUserPassword(struct User* user, char newPassword[]){
+    if(user != NULL){
+        free(user -> password);
+        user -> password = (char*)malloc(sizeof(char) * (strlen(newPassword) + 1));
+        strcpy(user -> password, newPassword);
+    }
+    return;
+}
 void outputTag(){
     printf("%d\n", tagCnt);
     for(int i = 0; i < tagCnt; ++i){

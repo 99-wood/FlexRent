@@ -15,6 +15,13 @@ bool LeapJudge(int year){
         return false;
     }
 }
+bool isLegal(struct Date a){
+    if(a.year <= 0) return false;
+    if(0 <= a.month && a.month <= 12){
+        if(a.day <= MonReDay[a.month] || (LeapJudge(a.year) && a.month == 2 && a.day == 29)) return true;
+    }
+    return false;
+}
 int cmpDate(struct Date a, struct Date b){
     int hybridA=a.day+100*a.month+100000*a.year,hybridB=b.day+100*b.month+10000*b.year;
     if(hybridA>hybridB){

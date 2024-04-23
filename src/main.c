@@ -2,7 +2,6 @@
 #include "core.h"
 #include "check.h"
 #include <windows.h>
-char name[20], phoneNumber[20], pwd[20];
 int id;
 int main(){
     initSystem();
@@ -20,6 +19,7 @@ int main(){
             while(true){
                 int op1_ = UiPrint(op1, 4);
                 if(op1_ == 0){ //admin
+                    char pwd[20];
                     printf("please enter your password:");
                     getpwd(pwd, sizeof(pwd) / sizeof(char));
                     if(strcmp(pwd, getAdminPassword()) == 0){ //成功登录 admin
@@ -299,7 +299,7 @@ int main(){
                                     if(op101_ == 0){ //房源信息查询与统计
                                         struct VoidList val;
                                         initVoidList(&val);
-                                        static char* op1010[] = {"Select All", "Select One Place", "Fuzzy Query", "Sort", "Back"};
+                                        static char* op1010[] = {"Select All", "Select One Place", "Fuzzy Query", "Sort with Area", "Back"};
                                         while(true){
                                             int op1010_ = UiPrint(op1010, 5);
                                             if(op1010_ == 0){ //全选
@@ -328,12 +328,11 @@ int main(){
                                                     getchar();
                                                 }
                                             }
-                                            else if(op1010_ == 2){
+                                            else if(op1010_ == 2){ //模糊查询
                                                 printf("Please Enter the key words:");
                                                 fflush(stdin);
                                                 gets(keyWord);
-                                                clearVoidList(&val);
-                                                struct VoidList tmp = val;
+                                                struct VoidList tmp = *filterVoidList(&val, &returnTrue);
                                                 val = *filterVoidList(&tmp, &checkHouseKey);
                                                 clearVoidList(&tmp);
                                                 printf("OK!\n");
@@ -363,10 +362,216 @@ int main(){
                                         clearVoidList(&val);
                                     }
                                     else if(op101_ == 1){ //看房信息与统计
-
+                                        struct VoidList val;
+                                        initVoidList(&val);
+                                        static char* op1010[] = {"Select All", "Select One House", "Select One Agency", "Select One User" "Fuzzy Query", "Sort with ID", "Back"};
+                                        while(true){
+                                            int op1010_ = UiPrint(op1010, 7);
+                                            if(op1010_ == 0){ //全选
+                                                clearVoidList(&val);
+                                                val = *filterVoidList(&vMsgList, &returnTrue);
+                                                printf("OK!\n");
+                                                fflush(stdin);
+                                                getchar();
+                                            }
+                                            else if(op1010_ == 1){ //选择某个房子
+                                                printf("Please Enter the house ID:");
+                                                int houseId;
+                                                scanf("%d", &houseId);
+                                                if(houseId >= cntHouse){
+                                                    printf("There 's no this place!");
+                                                    fflush(stdin);
+                                                    getchar();
+                                                }
+                                                else{
+                                                    clearVoidList(&val);
+                                                    struct House* house = getVoidTreapNodeData(&houseTreap, houseId);
+                                                    struct IntList tmp = *filterIntList(&house -> viewMsgList, &ireturnTrue);
+                                                    val = *VmsgIdListToVmsgList(&tmp);
+                                                    clearIntList(&tmp);
+                                                    printf("OK!\n");
+                                                    fflush(stdin);
+                                                    getchar();
+                                                }
+                                            }
+                                            else if(op1010_ == 2){ //选择某个中介
+                                                printf("Please Enter the agency ID:");
+                                                int middiumId;
+                                                scanf("%d", &middiumId);
+                                                if(middiumId >= cntMiddium){
+                                                    printf("There 's no this agency!");
+                                                    fflush(stdin);
+                                                    getchar();
+                                                }
+                                                else{
+                                                    clearVoidList(&val);
+                                                    struct House* middium = getVoidTreapNodeData(&middiumTreap, middiumId);
+                                                    struct IntList tmp = *filterIntList(&middium -> viewMsgList, &ireturnTrue);
+                                                    val = *VmsgIdListToVmsgList(&tmp);
+                                                    clearIntList(&tmp);
+                                                    printf("OK!\n");
+                                                    fflush(stdin);
+                                                    getchar();
+                                                }
+                                            }
+                                            else if(op1010_ == 3){ //选择某个用户
+                                                printf("Please Enter the user ID:");
+                                                int userId;
+                                                scanf("%d", &userId);
+                                                if(userId >= cntUser){
+                                                    printf("There 's no this user!");
+                                                    fflush(stdin);
+                                                    getchar();
+                                                }
+                                                else{
+                                                    clearVoidList(&val);
+                                                    struct User* user = getVoidTreapNodeData(&userTreap, userId);
+                                                    struct IntList tmp = *filterIntList(&user -> viewMsgList, &ireturnTrue);
+                                                    val = *VmsgIdListToVmsgList(&tmp);
+                                                    clearIntList(&tmp);
+                                                    printf("OK!\n");
+                                                    fflush(stdin);
+                                                    getchar();
+                                                }
+                                            }
+                                            else if(op1010_ == 4){ //模糊查询
+                                                printf("Please Enter the key words:");
+                                                fflush(stdin);
+                                                gets(keyWord);
+                                                struct VoidList tmp = *filterVoidList(&val, &returnTrue);
+                                                val = *filterVoidList(&tmp, &checkVMsgKey);
+                                                clearVoidList(&tmp);
+                                                printf("OK!\n");
+                                                fflush(stdin);
+                                                getchar();
+                                            }
+                                            else if(op1010_ == 5){ //排序
+                                                int len = val.cnt;
+                                                void** array = VoidListToVoidArray(&val);
+                                                sort(array, 0, len - 1, &cmpViewDate);
+                                                clearVoidList(&val);
+                                                val = *VoidArrayToVoidList(array, len);
+                                                free(array);
+                                            }
+                                            else{
+                                                break;
+                                            }
+                                            int len = val.cnt;
+                                            void** array = VoidListToVoidArray(&val);
+                                            for(int i = 0; i < len; ++i){
+                                                printVMsg((struct ViewHouseMsg*)array[i]);
+                                                printf("\n");
+                                            }
+                                            free(array);
+                                            getchar();
+                                        }
+                                        clearVoidList(&val);
                                     }
                                     else if(op101_ == 2){ //租房信息查询与统计
-
+                                        struct VoidList val;
+                                        initVoidList(&val);
+                                        static char* op1010[] = {"Select All", "Select One House", "Select One Agency", "Select One User", "Fuzzy Query", "Sort with ID", "Back"};
+                                        while(true){
+                                            int op1010_ = UiPrint(op1010, 7);
+                                            if(op1010_ == 0){ //全选
+                                                clearVoidList(&val);
+                                                val = *filterVoidList(&rMsgList, &returnTrue);
+                                                printf("OK!\n");
+                                                fflush(stdin);
+                                                getchar();
+                                            }
+                                            else if(op1010_ == 1){ //选择某个房子
+                                                printf("Please Enter the house ID:");
+                                                int houseId;
+                                                scanf("%d", &houseId);
+                                                if(houseId >= cntHouse){
+                                                    printf("There 's no this place!");
+                                                    fflush(stdin);
+                                                    getchar();
+                                                }
+                                                else{
+                                                    clearVoidList(&val);
+                                                    struct House* house = getVoidTreapNodeData(&houseTreap, houseId);
+                                                    struct IntList tmp = *filterIntList(&house -> rentMsgList, &ireturnTrue);
+                                                    val = *RmsgIdListToRmsgList(&tmp);
+                                                    clearIntList(&tmp);
+                                                    printf("OK!\n");
+                                                    fflush(stdin);
+                                                    getchar();
+                                                }
+                                            }
+                                            else if(op1010_ == 2){ //选择某个中介
+                                                printf("Please Enter the agency ID:");
+                                                int middiumId;
+                                                scanf("%d", &middiumId);
+                                                if(middiumId >= cntMiddium){
+                                                    printf("There 's no this agency!");
+                                                    fflush(stdin);
+                                                    getchar();
+                                                }
+                                                else{
+                                                    clearVoidList(&val);
+                                                    struct House* middium = getVoidTreapNodeData(&middiumTreap, middiumId);
+                                                    struct IntList tmp = *filterIntList(&middium -> rentMsgList, &ireturnTrue);
+                                                    val = *RmsgIdListToRmsgList(&tmp);
+                                                    clearIntList(&tmp);
+                                                    printf("OK!\n");
+                                                    fflush(stdin);
+                                                    getchar();
+                                                }
+                                            }
+                                            else if(op1010_ == 3){ //选择某个用户
+                                                printf("Please Enter the user ID:");
+                                                int userId;
+                                                scanf("%d", &userId);
+                                                if(userId >= cntUser){
+                                                    printf("There 's no this user!");
+                                                    fflush(stdin);
+                                                    getchar();
+                                                }
+                                                else{
+                                                    clearVoidList(&val);
+                                                    struct User* user = getVoidTreapNodeData(&userTreap, userId);
+                                                    struct IntList tmp = *filterIntList(&user -> rentMsgList, &ireturnTrue);
+                                                    val = *RmsgIdListToRmsgList(&tmp);
+                                                    clearIntList(&tmp);
+                                                    printf("OK!\n");
+                                                    fflush(stdin);
+                                                    getchar();
+                                                }
+                                            }
+                                            else if(op1010_ == 4){ //模糊查询
+                                                printf("Please Enter the key words:");
+                                                fflush(stdin);
+                                                gets(keyWord);
+                                                struct VoidList tmp = *filterVoidList(&val, &returnTrue);
+                                                val = *filterVoidList(&tmp, &checkRMsgKey);
+                                                clearVoidList(&tmp);
+                                                printf("OK!\n");
+                                                fflush(stdin);
+                                                getchar();
+                                            }
+                                            else if(op1010_ == 5){ //排序
+                                                int len = val.cnt;
+                                                void** array = VoidListToVoidArray(&val);
+                                                sort(array, 0, len - 1, &cmpRentDate);
+                                                clearVoidList(&val);
+                                                val = *VoidArrayToVoidList(array, len);
+                                                free(array);
+                                            }
+                                            else{
+                                                break;
+                                            }
+                                            int len = val.cnt;
+                                            void** array = VoidListToVoidArray(&val);
+                                            for(int i = 0; i < len; ++i){
+                                                printRMsg((struct RentHouseMsg*)array[i]);
+                                                printf("\n");
+                                            }
+                                            free(array);
+                                            getchar();
+                                        }
+                                        clearVoidList(&val);
                                     }
                                     else{
                                         break;
@@ -374,6 +579,97 @@ int main(){
                                 }
                             }
                             else if(op10_ == 2){ //中介管理
+                                static char* op102[] = {"Add Agency", "Change Agency Password", "Back"};
+                                while (true)
+                                {
+                                    int op102_ = UiPrint(op102, 3);
+                                    if(op102_ == 0){ //创建中介账户
+                                        char name[20], phone[20], password[20];
+                                        printf("please enter name(English):");
+                                        gets(name);
+                                        printf("please enter phone number:");
+                                        gets(phone);
+                                        printf("please enter password:");
+                                        getpwd(pwd, sizeof(password) / sizeof(char));
+                                        printf("name is \"%s\", phone number is \"%s\", password is \"%s\", please enter \"yes\" to creat account", name, phone, password);
+                                        char tmp[20];
+                                        gets(tmp);
+                                        if(strcmp(tmp, "yes") == 0){
+                                            struct Middium* middium = addMiddium(name, password, phone);
+                                            printf("Create the account! ID is %03d\n", middium -> id);
+                                            fflush(stdin);
+                                            getchar();
+                                        }
+                                        else{
+                                            printf("Not create account!\n");
+                                            fflush(stdin);
+                                            getchar();
+                                        }
+                                    }
+                                    else if(op102_ == 1){ //修改中介密码
+                                        char password[20];
+                                        int id;
+                                        printf("please enter ID:");
+                                        scanf("%d", &id);
+                                        if(id >= cntMiddium){
+                                            printf("Wrong ID!\n");
+                                            fflush(stdin);
+                                            getchar();
+                                            continue;
+                                        }
+                                        printf("please enter new password:");
+                                        getpwd(pwd, sizeof(password) / sizeof(char));
+                                        printf("password is \"%s\", please enter \"yes\" to creat account", password);
+                                        char tmp[20];
+                                        gets(tmp);
+                                        if(strcmp(tmp, "yes") == 0){
+                                            struct Middium* middium = getVoidTreapNodeData(&middiumTreap, id);
+                                            changeMiddiumPassword(middium, password);
+                                            printf("Change the password!\n");
+                                            fflush(stdin);
+                                            getchar();
+                                        }
+                                        else{
+                                            printf("Not change the password!\n");
+                                            fflush(stdin);
+                                            getchar();
+                                        }
+                                    }
+                                    else{
+                                        break;
+                                    }
+                                }
+                                
+                            }
+                            else if(op10_ == 3){ //系统
+
+                            }
+                            else if(op10_ == 4){ //修改密码
+                                char newPassword[20];
+                                char pwd[20];
+                                printf("please enter your password:");
+                                getpwd(pwd, sizeof(pwd) / sizeof(char));
+                                if(strcmp(pwd, getAdminPassword())!= 0){
+                                    printf("Wrong Password!\n");
+                                    fflush(stdin);
+                                    getchar();
+                                    continue;
+                                }
+                                while(true){
+                                    printf("please enter your new password:");
+                                    getpwd(newPassword, sizeof(newPassword) / sizeof(newPassword));
+                                    printf("please enter your new password again:");
+                                    char tmp[20];
+                                    getpwd(tmp, sizeof(tmp) / sizeof(char));
+                                    if(strcmp(newPassword, tmp) != 0){
+                                        printf("wrong, please enter again\n");
+                                    }
+                                    else break;
+                                }
+                                setAdminPassword(newPassword);
+                                printf("OK!");
+                                fflush(stdin);
+                                getchar();
                             }
                             else{
                                 quitSystem();
@@ -383,6 +679,7 @@ int main(){
                     }
                 }
                 else if(op1_ == 1){ //middium
+                    char name[20], phoneNumber[20], pwd[20];
                     printf("please enter your id:");
                     scanf("%d", &id);
                     printf("please enter your password:");
@@ -395,13 +692,147 @@ int main(){
                             enable = true;
                         }
                     }
-                    if(enable){
+                    if(enable){ //成功登录 middium
+                        struct Middium* middium = (struct Middium*)getVoidTreapNodeData(&middiumTreap, id);
                         printf("ok");
-                    }
-                    else{
+                        static char* op11[] = {"View Houes Infomation", "Rent Houes Infomation", "Change Password", "Exit"};
+                        while(true){
+                            int op11_ = UiPrint(op11, 4);
+                            if(op11_ == 0){
+                                static char* op110[] = {"Show Infomation", "Finish Infomation", "Back"};
+                                while(true){
+                                    int op110_ = UiPrint(op110, 3);
+                                    if(op110_ == 0){ //打印信息
+                                        struct VoidList val;
+                                        struct IntList tmp = *filterIntList(&middium -> viewMsgList, &ireturnTrue);
+                                        val = *VmsgIdListToVmsgList(&tmp);
+                                        clearIntList(&tmp);
+                                        int len = val.cnt;
+                                        void** array = VoidListToVoidArray(&val);
+                                        for(int i = 0; i < len; ++i){
+                                            printVMsg((struct ViewHouseMsg*)array[i]);
+                                            printf("\n");
+                                        }
+                                        free(array);
+                                        fflush(stdin);
+                                        getchar();
+                                    }
+                                    else if(op110_ == 1){
+                                        printf("Please enter the ID:");
+                                        int id;
+                                        scanf("%d", &id);
+                                        if(id >= cntViewMsg){
+                                            printf("Wrong ID!\n");
+                                            fflush(stdin);
+                                            getchar();
+                                            continue;
+                                        }
+                                        else{
+                                            struct ViewHouseMsg* msg = getVoidTreapNodeData(&vMsgTreap, id);
+                                            if(msg -> middiumId != middium -> id){
+                                                printf("Wrong ID!\n");
+                                                fflush(stdin);
+                                                getchar();
+                                                continue;
+                                            }
+                                            finishViewHouse(msg);
+                                            printf("OK\n");
+                                            getchar();
+                                        }
+                                    }
+                                    else{
+                                        break;
+                                    }
+                                }
+                            }
+                            else if(op11_ == 1){ //租房信息
+                                static char* op111[] = {"Show Infomation", "Add Infomation", "Back"};
+                                while(true){
+                                    int op110_ = UiPrint(op111, 3);
+                                    if(op110_ == 0){ //打印信息
+                                        struct VoidList val;
+                                        struct IntList tmp = *filterIntList(&middium -> viewMsgList, &ireturnTrue);
+                                        val = *RmsgIdListToRmsgList(&tmp);
+                                        clearIntList(&tmp);
+                                        int len = val.cnt;
+                                        void** array = VoidListToVoidArray(&val);
+                                        for(int i = 0; i < len; ++i){
+                                            printRMsg((struct RentHouseMsg*)array[i]);
+                                            printf("\n");
+                                        }
+                                        free(array);
+                                        fflush(stdin);
+                                        getchar();
+                                    }
+                                    else if(op110_ == 1){
+                                        int houseID, userID;
+                                        printf("Please enter the house ID:"); scanf("%d", &houseID);
+                                        if(houseID >= cntHouse){
+                                            printf("Wrong ID!");
+                                            fflush(stdin);
+                                            getchar();
+                                            continue;
+                                        }
+                                        printf("Please enter the user ID:"); scanf("%d", &userID);
+                                        if(userID >= cntUser){
+                                            printf("Wrong ID!");
+                                            fflush(stdin);
+                                            getchar();
+                                            continue;
+                                        }
+                                        struct Date begin, end;
+                                        printf("Please enter the begin date(yyyy-mm-dd):");scanf("%d-%d-%d", &begin.year, &begin.month, &begin.day);
+                                        printf("Please enter the end date(yyyy-mm-dd):");scanf("%d-%d-%d", &end.year, &end.month, &end.day);
+                                        if(isLegal(begin) == false || isLegal(end) == false){
+                                            printf("Wrond date!");
+                                            fflush(stdin);
+                                            getchar();
+                                            continue;
+                                        }
+                                        struct House* house = getVoidTreapNodeData(&houseTreap, houseID);
+                                        struct User* user = getVoidTreapNodeData(&userTreap, userID);
+                                        rentHouse(user, house, middium, begin, end);
+                                    }
+                                    else{
+                                        break;
+                                    }
+                                }
+                            }
+                            else if(op11_ == 2){ //修改密码
+                                char newPassword[20];
+                                char pwd[20];
+                                printf("please enter your password:");
+                                getpwd(pwd, sizeof(pwd) / sizeof(char));
+                                if(strcmp(pwd, middium -> password)!= 0){
+                                    printf("Wrong Password!\n");
+                                    fflush(stdin);
+                                    getchar();
+                                    continue;
+                                }
+                                while(true){
+                                    printf("please enter your new password:");
+                                    getpwd(newPassword, sizeof(newPassword) / sizeof(newPassword));
+                                    printf("please enter your new password again:");
+                                    char tmp[20];
+                                    getpwd(tmp, sizeof(tmp) / sizeof(char));
+                                    if(strcmp(newPassword, tmp) != 0){
+                                        printf("wrong, please enter again\n");
+                                    }
+                                    else break;
+                                }
+                                changeMiddiumPassword(middium, newPassword);
+                                printf("OK!");
+                                fflush(stdin);
+                                getchar();
+                            }
+                            else{
+                                quitSystem();
+                            }
+                        }
                     }
                 }
                 else if(op1_ == 2){ //user
+                    char name[20], phoneNumber[20], pwd[20];
                     printf("please enter your id:");
                     scanf("%d", &id);
                     printf("please enter your password:");
@@ -415,7 +846,131 @@ int main(){
                         }
                     }
                     if(enable){ //成功登录user
-                        static char* op12[]= {"", "", "", ""};
+                        struct User* user = (struct User*)getVoidTreapNodeData(&userTreap, id);
+                        static char* op12[] = {"House", "View House Infomathon", "Rent House Infomathon", "Change Password", "Exit"};
+                        while(true){
+                            int op12_ = UiPrint(op12, 5);
+                            if(op12_ == 0){ //房屋查询
+                                printAll(&placeRoot, 0);
+                                fflush(stdin);
+                                getchar();
+                            }
+                            else if(op12_ == 1){ //看房
+                                static char* op121[] = {"Show Infomation", "Add Appointment", "Cancel Appointment", "Back"};
+                                while(true){
+                                    int op121_ = UiPrint(op121, 4);
+                                    if(op121_ == 0){ //打印信息
+                                        struct VoidList val;
+                                        struct IntList tmp = *filterIntList(&user -> viewMsgList, &ireturnTrue);
+                                        val = *RmsgIdListToRmsgList(&tmp);
+                                        clearIntList(&tmp);
+                                        int len = val.cnt;
+                                        void** array = VoidListToVoidArray(&val);
+                                        for(int i = 0; i < len; ++i){
+                                            printRMsg((struct RentHouseMsg*)array[i]);
+                                            printf("\n");
+                                        }
+                                        free(array);
+                                        fflush(stdin);
+                                        getchar();
+                                    }
+                                    else if(op121_ == 1){
+                                        int houseID, middiumId;
+                                        printf("Please enter the house ID:"); scanf("%d", &houseID);
+                                        if(houseID >= cntHouse){
+                                            printf("Wrong ID!");
+                                            fflush(stdin);
+                                            getchar();
+                                            continue;
+                                        }
+                                        printf("Please enter the agency ID, -1 for Uncertain:"); scanf("%d", &middiumId);
+                                        if(middiumId >= cntMiddium){
+                                            printf("Wrong ID!");
+                                            fflush(stdin);
+                                            getchar();
+                                            continue;
+                                        }
+                                        struct Date t;
+                                        printf("Please enter the begin date(yyyy-mm-dd):");scanf("%d-%d-%d", &t.year, &t.month, &t.day);
+                                        if(isLegal(t) == false){
+                                            printf("Wrong date!");
+                                            fflush(stdin);
+                                            getchar();
+                                            continue;
+                                        }
+                                        struct House* house = getVoidTreapNodeData(&houseTreap, houseID);
+                                        struct Middium* middium = middiumId == -1 ? NULL : getVoidTreapNodeData(&middiumTreap, middiumId);
+                                        int res = viewHouse(user, house, middium, t) -> id;
+                                        printf("OK! your view house id = %d\n", res);
+                                        fflush(stdin);
+                                        getchar();
+                                    }
+                                    else if(op121_ == 2){ //取消预约
+                                        int msgId;
+                                        printf("Please enter the msg ID:"); scanf("%d", &msgId);
+                                        if(msgId >= cntViewMsg || msgId < 0){
+                                            printf("Wrong ID!");
+                                            fflush(stdin);
+                                            getchar();
+                                            continue;
+                                        }
+                                        struct ViewHouseMsg* msg = getVoidTreapNodeData(&vMsgTreap, msgId);
+                                        cancelViewHouse(msg);
+                                        printf("OK!");
+                                        fflush(stdin);
+                                        getchar();
+                                    }
+                                    else{
+                                        break;
+                                    }
+                                }
+                            }
+                            else if(op12_ == 2){
+                                struct VoidList val;
+                                struct IntList tmp = *filterIntList(&user -> viewMsgList, &ireturnTrue);
+                                val = *RmsgIdListToRmsgList(&tmp);
+                                clearIntList(&tmp);
+                                int len = val.cnt;
+                                void** array = VoidListToVoidArray(&val);
+                                for(int i = 0; i < len; ++i){
+                                    printRMsg((struct RentHouseMsg*)array[i]);
+                                    printf("\n");
+                                }
+                                free(array);
+                                fflush(stdin);
+                                getchar();
+                            }
+                            else if(op12_ == 3){
+                                char newPassword[20];
+                                char pwd[20];
+                                printf("please enter your password:");
+                                getpwd(pwd, sizeof(pwd) / sizeof(char));
+                                if(strcmp(pwd, user -> password)!= 0){
+                                    printf("Wrong Password!\n");
+                                    fflush(stdin);
+                                    getchar();
+                                    continue;
+                                }
+                                while(true){
+                                    printf("please enter your new password:");
+                                    getpwd(newPassword, sizeof(newPassword) / sizeof(newPassword));
+                                    printf("please enter your new password again:");
+                                    char tmp[20];
+                                    getpwd(tmp, sizeof(tmp) / sizeof(char));
+                                    if(strcmp(newPassword, tmp) != 0){
+                                        printf("wrong, please enter again\n");
+                                    }
+                                    else break;
+                                }
+                                changeUserPassword(user, newPassword);
+                                printf("OK!");
+                                fflush(stdin);
+                                getchar();
+                            }
+                            else{
+                                quitSystem();
+                            }
+                        }
                     }
                 }
                 else{ //back
@@ -424,6 +979,7 @@ int main(){
             }
         }
         else if(op_ == 2){ //rigister
+            char name[20], phoneNumber[20], pwd[20];
             while(true){
                 printf("please enter your name(English):");
                 gets(name);
@@ -455,59 +1011,5 @@ int main(){
             return 0;
         }
     }
-    // addTag("bei");
-    // addPlace("liaonin", "root");
-    // addPlace("beijing", "root");
-    // addPlace("chaoyang", "beijing");
-    // addPlace("shenyang", "liaonin");
-    // addPlace("hunnan", "shenyang");
-    // addPlace("11", "niumo");
-    // printPlaceTree(&placeRoot, 0);
-    // struct House* house1 = addHouse("fw", "123", "hunnan", "No195", 100, 2);
-    // struct House* house2 = addHouse("fw", "123", "hunnan", "No194", 10000, -18);
-    // struct House* house3 = addHouse("fw", "123", "hunnan", "No191", 10000, -18);
-    // setdirection(house2, findTag("bei"));
-    // setPrice(house2, 1000);
-    // // delHouse(house);
-    // // printHouse(house);
-    // // printf("%s", tag[house -> direction].name);
-    // // printf("%d", house -> price);
-    // struct Middium* middium = addMiddium("js", "12345", "23456");
-    // struct Middium* middium_ = (struct Middium*)getVoidTreapNodeData(&middiumTreap, 0);
-    // // printf("%s\n", middium_ -> name);
-    // struct User* user = addUser("fw", "1234567890", "23456789");
-    // // printf("%d\n", user -> viewMsgList.cnt);
-    // // printf("%s", user);
-    // // struct User* user_ = (struct User*)getVoidTreapNodeData(&userTreap, 0);
-    // // printf("%s", user_ -> name);
-    // struct Date date;
-    // date.year = 2020;
-    // date.day = 11;
-    // date.month = 12;
-    // // viewHouse(user, house1, middium, date);
-    // // viewHouse(user, house3, middium, date);
-    // // viewHouse(user, house2, middium, date);
-    // rentHouse(user, house1, middium, date, date);
-    // date.year++;
-    // rentHouse(user, house1, middium, date, date);
-    // struct IntListNode* now = house1 -> rentMsgList.head;
-    // struct Date l, r;
-    // l.year = r.year =2020;
-    // l.month = 1;
-    // l.day = 1;
-    // r.month = 12;
-    // r.day = 31;
-    // bool flag = true;
-    // while(now != NULL){
-    //     int msgId = now -> value;
-    //     struct RentHouseMsg* msg = (struct RentHouseMsg*)getVoidTreapNodeData(&rMsgTreap, msgId);
-    //     if(!(cmpDate(r, msg -> begin) < 0 || cmpDate(msg -> end, l) < 0)) {
-    //         flag = false;
-    //         break;
-    //     }
-    //     now = now -> nxt;
-    // }
-    // if(flag) printf("ok");
-    // else printf("no");
     return 0;
 }

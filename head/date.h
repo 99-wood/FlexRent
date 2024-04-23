@@ -14,4 +14,6 @@ int cmpDate(struct Date a, struct Date b);
 int subDate(struct Date a, struct Date b);
 //判断闰年
 bool LeapJudge(int year);
+
+bool isLegal(struct Date a);
 #endif
