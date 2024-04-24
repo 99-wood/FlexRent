@@ -15,6 +15,12 @@ bool ireturnTrue(int a){
 bool cmpS(void* a, void* b){
     return ((struct House*)a) -> S < ((struct House*)b) -> S;
 }
+bool cmpID(void* a, void* b){
+    return ((struct House*)a) -> id < ((struct House*)b) -> id;
+}
+bool cmpprice(void* a, void* b){
+    return ((struct House*)a) -> price < ((struct House*)b) -> price;
+}
 bool cmpViewDate(void* a, void* b){
     return cmpDate(((struct ViewHouseMsg*)a) -> reqTime, ((struct ViewHouseMsg*)b) -> reqTime) < 0;
 }
@@ -38,6 +44,13 @@ void initPre(){
             pos = pre[pos];
         }
     }
+    // freopen("err.out", "a", stdout);
+    // for(int i = 0; i < len; ++i){
+    //     printf("%d ", pre[i]);
+    // }
+    // printf("\n");
+    // freopen("CON", "w", stdout);
+    return;
 }
 bool isKeyExist(char str[]){
     // KMP算法
@@ -48,13 +61,19 @@ bool isKeyExist(char str[]){
             if(now == -1) break;
             now = pre[now];
         }
-        if(str[i] != keyWord[now + 1]){
+        if(str[i] == keyWord[now + 1]){
             now++;
         }
         else{
             now = -1;
         }
-        if(now == len2 - 1) return true;
+        // freopen("err.out", "a", stdout);
+        // printf("%d %d\n", i, now);
+        // freopen("CON", "w", stdout);
+        if(now == len2 - 1){
+            // printf("|%s|", str);
+            return true;
+        }
     }
     return false;
 }
@@ -62,24 +81,24 @@ bool checkHouseKey(void* a){
     initPre();
     struct House* house = (struct House*)a;
     return isKeyExist(house->address) || 
-           isKeyExist(house->ownerName) == 0 || 
-           isKeyExist(house->ownerPhone) == 0 || 
-           isKeyExist(house->father->name) == 0 || 
-           (house->direction >= 0 && isKeyExist(tag[house->direction].name) == 0) || 
+           isKeyExist(house->ownerName) || 
+           isKeyExist(house->ownerPhone) || 
+           isKeyExist(house->father->name) || 
+           (house->direction >= 0 && isKeyExist(tag[house->direction].name)) || 
            (house->decorationLevel >= 0 && isKeyExist(tag[house->decorationLevel].name)) ||
-           (house->houseType >= 0 && isKeyExist(tag[house->houseType].name) == 0);
+           (house->houseType >= 0 && isKeyExist(tag[house->houseType].name));
 }
 bool checkUserKey(void* a){
     initPre();
     struct User* user = (struct User*)a;
     return isKeyExist(user -> name) || 
-           isKeyExist(user -> phoneNumber) == 0;
+           isKeyExist(user -> phoneNumber);
 }
 bool checkMiddiumKey(void* a){
     initPre();
     struct Middium* middium = (struct Middium*)a;
     return isKeyExist(middium -> name) || 
-           isKeyExist(middium -> phoneNumber) == 0;
+           isKeyExist(middium -> phoneNumber);
 }
 bool checkVMsgKey(void* a){
     initPre();

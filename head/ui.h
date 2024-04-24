@@ -16,10 +16,10 @@ void color(short x)	//自定义函根据参数改变颜色
     	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 7);
 } 
 void Print(char* c[],int line,int num){
-	system("CLS");
-    printf("                                                ---------------------------------------------------------\n");
+	system("CLS");//                                        =========================================================
+    printf("                                   ===========================================================\n");
 	for(int i=0;i<num;i++){
-        printf("                                               |      ");
+        printf("                                   #      ");
 		if(i==line){
             color(4);
             printf("*");
@@ -31,9 +31,9 @@ void Print(char* c[],int line,int num){
             printf("%-50s",c[i]);
         }
         color(16);
-        printf("|\n");
+        printf("#\n");
 	}
-    printf("                                                ---------------------------------------------------------");
+    printf("                                   ===========================================================");
 }
 int UiPrint(char* CC[],int num){   
     int ch1=0;
@@ -76,6 +76,7 @@ void modeset(int w,int h) {
 	return;
 }
 void getpwd(char *pwd, int pwdlen){
+    fflush(stdin);
     char ch = 0;
     int i = 0;
     while(i<pwdlen){

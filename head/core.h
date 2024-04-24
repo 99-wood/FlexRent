@@ -447,7 +447,7 @@ void outputSystem(char fileName[]){
     outputUser();
     outputViewMsg();
     outputRentMsg();
-    freopen("CON", "w", stdout);
+    // freopen("CON", "w", stdout);
     return;
 }
 void inputTag(){
@@ -502,16 +502,19 @@ void inputHouse(){
         setHouseType(house, houseType);
         int m;
         scanf("%d\n", &m);
+        // if(m == 0) getchar();
         for(int j = 0; j < m; ++j){
             int a;
             scanf("%d\n", &a);
-            addIntListHead(&house -> viewMsgList, a);
+            // addIntListHead(&house -> viewMsgList, a);
         }
+        // Sleep(10000);
         scanf("%d\n", &m);
+        // if(m == 0) getchar();
         for(int j = 0; j < m; ++j){
             int a;
             scanf("%d\n", &a);
-            addIntListHead(&house -> rentMsgList, a);
+            // addIntListHead(&house -> rentMsgList, a);
         }
     }
     return;
@@ -530,16 +533,19 @@ void inputMiddium(){
 
         int m;
         scanf("%d\n", &m);
+        // if(m == 0) getchar();
+        // freopen("CON", "w", stdout);
         for(int j = 0; j < m; ++j){
             int a;
             scanf("%d\n", &a);
-            addIntListHead(&middium -> viewMsgList, a);
+            // addIntListHead(&middium -> viewMsgList, a);
         }
         scanf("%d\n", &m);
+        // if(m == 0) getchar();
         for(int j = 0; j < m; ++j){
             int a;
             scanf("%d\n", &a);
-            addIntListHead(&middium -> rentMsgList, a);
+            // addIntListHead(&middium -> rentMsgList, a);
         }
     }
     return;
@@ -547,6 +553,7 @@ void inputMiddium(){
 void inputUser(){
     int n;
     scanf("%d\n", &n);
+    printf("|%d|", n);
     char name[20], password[20], phoneNumber[20];
     int id;
     for(int i = 0; i < n; ++i){
@@ -554,26 +561,33 @@ void inputUser(){
         scanf("%d\n", &id);
         gets(password);
         gets(phoneNumber);
+        printf("|%s|\n", name);
+        printf("|%s|\n", password);
+        printf("|%s|\n", phoneNumber);
+            // printf("|%s|", phoneNumber);
         struct User* user = addUser(name, password, phoneNumber);
 
         int m;
         scanf("%d\n", &m);
+        // if(m == 0) getchar();
         for(int j = 0; j < m; ++j){
             int a;
             scanf("%d\n", &a);
-            addIntListHead(&user -> viewMsgList, a);
+            // addIntListHead(&user -> viewMsgList, a);
         }
         scanf("%d\n", &m);
+        // if(m == 0) getchar();
         for(int j = 0; j < m; ++j){
             int a;
             scanf("%d\n", &a);
-            addIntListHead(&user -> rentMsgList, a);
+            // addIntListHead(&user -> rentMsgList, a);
         }
     }
 }
 void inputVMsg(){
     int n;
     scanf("%d\n", &n);
+    printf("|%d|", n);
     int id, houseId, userId, middiumId, state;
     struct Date t;
     for(int i = 0; i < n; ++i){
@@ -594,6 +608,7 @@ void inputVMsg(){
 void inputRMsg(){
     int n;
     scanf("%d\n", &n);
+    printf("|%d|", n);
     int id, houseId, userId, middiumId;
     struct Date s, t;
     for(int i = 0; i < n; ++i){
@@ -650,6 +665,7 @@ void initSystem(){
 void quitSystem(){
     printf("Enter \"yes\" to save\n");
     char input[20];
+    fflush(stdin);
     gets(input);
     if(strcmp(input, "yes") == 0){
         outputSystem("data.out");

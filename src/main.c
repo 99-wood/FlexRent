@@ -52,6 +52,7 @@ int main(){
                                             else if(op1000_ == 1){//添加 tag
                                                 char tagName[20];
                                                 printf("Please enter the tag Name:");
+                                                fflush(stdin);
                                                 gets(tagName);
                                                 bool exist = false;
                                                 for(int i = 0; i < tagCnt; ++i){
@@ -89,8 +90,10 @@ int main(){
                                             else if(op1001_ == 1){
                                                 char placeName[20], fatherName[20];
                                                 printf("Please enter the place's name:");
+                                                fflush(stdin);
                                                 gets(placeName);
                                                 printf("Plesae enter the place's father's name, if the place is a privince, just enter Enter");
+                                                fflush(stdin);
                                                 gets(fatherName);
                                                 if(strlen(fatherName) == 0){
                                                     addPlace(placeName, "root");
@@ -131,10 +134,13 @@ int main(){
                                                 char ownerName[20], ownerPhone[20], placeName[20], address[20];
                                                 int S, floor;
                                                 printf("Please Enter the owner's name:");
+                                                fflush(stdin);
                                                 gets(ownerName);
                                                 printf("Please Enter the owner's phone number:");
+                                                fflush(stdin);
                                                 gets(ownerPhone);
                                                 printf("Please Enter the placeName:");
+                                                fflush(stdin);
                                                 gets(placeName);
                                                 printf("Please Enter the address:");
                                                 if(getHashTreapNodeData(&placeTraep, makeHashValue(placeName)) == NULL){
@@ -143,6 +149,7 @@ int main(){
                                                     getchar();
                                                     continue;
                                                 }
+                                                fflush(stdin);
                                                 gets(address);
                                                 printf("Please Enter the house's Area:");
                                                 scanf("%d", &S);
@@ -299,9 +306,9 @@ int main(){
                                     if(op101_ == 0){ //房源信息查询与统计
                                         struct VoidList val;
                                         initVoidList(&val);
-                                        static char* op1010[] = {"Select All", "Select One Place", "Fuzzy Query", "Sort with Area", "Back"};
+                                        static char* op1010[] = {"Select All", "Select One Place", "Fuzzy Query", "Sort with Area", "Sort with ID", "Sort with Price", "Back"};
                                         while(true){
-                                            int op1010_ = UiPrint(op1010, 5);
+                                            int op1010_ = UiPrint(op1010, 7);
                                             if(op1010_ == 0){ //全选
                                                 clearVoidList(&val);
                                                 val = *filterVoidList(&houseList, &returnTrue);
@@ -347,6 +354,22 @@ int main(){
                                                 val = *VoidArrayToVoidList(array, len);
                                                 free(array);
                                             }
+                                            else if(op1010_ == 4){ //id排序
+                                                int len = val.cnt;
+                                                void** array = VoidListToVoidArray(&val);
+                                                sort(array, 0, len - 1, &cmpID);
+                                                clearVoidList(&val);
+                                                val = *VoidArrayToVoidList(array, len);
+                                                free(array);
+                                            }
+                                            else if(op1010_ == 5){ //排序
+                                                int len = val.cnt;
+                                                void** array = VoidListToVoidArray(&val);
+                                                sort(array, 0, len - 1, &cmpprice);
+                                                clearVoidList(&val);
+                                                val = *VoidArrayToVoidList(array, len);
+                                                free(array);
+                                            }
                                             else{
                                                 break;
                                             }
@@ -364,7 +387,7 @@ int main(){
                                     else if(op101_ == 1){ //看房信息与统计
                                         struct VoidList val;
                                         initVoidList(&val);
-                                        static char* op1010[] = {"Select All", "Select One House", "Select One Agency", "Select One User" "Fuzzy Query", "Sort with ID", "Back"};
+                                        static char* op1010[] = {"Select All", "Select One House", "Select One Agency", "Select One User", "Fuzzy Query", "Sort with ID", "Back"};
                                         while(true){
                                             int op1010_ = UiPrint(op1010, 7);
                                             if(op1010_ == 0){ //全选
@@ -586,13 +609,16 @@ int main(){
                                     if(op102_ == 0){ //创建中介账户
                                         char name[20], phone[20], password[20];
                                         printf("please enter name(English):");
+                                        fflush(stdin);
                                         gets(name);
                                         printf("please enter phone number:");
+                                        fflush(stdin);
                                         gets(phone);
                                         printf("please enter password:");
-                                        getpwd(pwd, sizeof(password) / sizeof(char));
+                                        getpwd(password, sizeof(password) / sizeof(char));
                                         printf("name is \"%s\", phone number is \"%s\", password is \"%s\", please enter \"yes\" to creat account", name, phone, password);
                                         char tmp[20];
+                                        fflush(stdin);
                                         gets(tmp);
                                         if(strcmp(tmp, "yes") == 0){
                                             struct Middium* middium = addMiddium(name, password, phone);
@@ -618,9 +644,10 @@ int main(){
                                             continue;
                                         }
                                         printf("please enter new password:");
-                                        getpwd(pwd, sizeof(password) / sizeof(char));
+                                        getpwd(password, sizeof(password) / sizeof(char));
                                         printf("password is \"%s\", please enter \"yes\" to creat account", password);
                                         char tmp[20];
+                                        fflush(stdin);
                                         gets(tmp);
                                         if(strcmp(tmp, "yes") == 0){
                                             struct Middium* middium = getVoidTreapNodeData(&middiumTreap, id);
@@ -657,7 +684,7 @@ int main(){
                                 }
                                 while(true){
                                     printf("please enter your new password:");
-                                    getpwd(newPassword, sizeof(newPassword) / sizeof(newPassword));
+                                    getpwd(newPassword, sizeof(newPassword) / sizeof(char));
                                     printf("please enter your new password again:");
                                     char tmp[20];
                                     getpwd(tmp, sizeof(tmp) / sizeof(char));
@@ -751,7 +778,7 @@ int main(){
                                     int op110_ = UiPrint(op111, 3);
                                     if(op110_ == 0){ //打印信息
                                         struct VoidList val;
-                                        struct IntList tmp = *filterIntList(&middium -> viewMsgList, &ireturnTrue);
+                                        struct IntList tmp = *filterIntList(&middium -> rentMsgList, &ireturnTrue);
                                         val = *RmsgIdListToRmsgList(&tmp);
                                         clearIntList(&tmp);
                                         int len = val.cnt;
@@ -811,7 +838,7 @@ int main(){
                                 }
                                 while(true){
                                     printf("please enter your new password:");
-                                    getpwd(newPassword, sizeof(newPassword) / sizeof(newPassword));
+                                    getpwd(newPassword, sizeof(newPassword) / sizeof(char));
                                     printf("please enter your new password again:");
                                     char tmp[20];
                                     getpwd(tmp, sizeof(tmp) / sizeof(char));
@@ -827,6 +854,7 @@ int main(){
                             }
                             else{
                                 quitSystem();
+                                return 0;
                             }
                         }
                     }
@@ -862,12 +890,12 @@ int main(){
                                     if(op121_ == 0){ //打印信息
                                         struct VoidList val;
                                         struct IntList tmp = *filterIntList(&user -> viewMsgList, &ireturnTrue);
-                                        val = *RmsgIdListToRmsgList(&tmp);
+                                        val = *VmsgIdListToVmsgList(&tmp);
                                         clearIntList(&tmp);
                                         int len = val.cnt;
                                         void** array = VoidListToVoidArray(&val);
                                         for(int i = 0; i < len; ++i){
-                                            printRMsg((struct RentHouseMsg*)array[i]);
+                                            printVMsg((struct ViewHouseMsg*)array[i]);
                                             printf("\n");
                                         }
                                         free(array);
@@ -953,7 +981,7 @@ int main(){
                                 }
                                 while(true){
                                     printf("please enter your new password:");
-                                    getpwd(newPassword, sizeof(newPassword) / sizeof(newPassword));
+                                    getpwd(newPassword, sizeof(newPassword) / sizeof(char));
                                     printf("please enter your new password again:");
                                     char tmp[20];
                                     getpwd(tmp, sizeof(tmp) / sizeof(char));
@@ -969,6 +997,7 @@ int main(){
                             }
                             else{
                                 quitSystem();
+                                return 0;
                             }
                         }
                     }
@@ -982,8 +1011,10 @@ int main(){
             char name[20], phoneNumber[20], pwd[20];
             while(true){
                 printf("please enter your name(English):");
+                fflush(stdin);
                 gets(name);
                 printf("please enter your phone number:");
+                fflush(stdin);
                 gets(phoneNumber);
                 while(true){
                     printf("please enter your password:");
@@ -1000,6 +1031,7 @@ int main(){
                 printf("your name is \"%s\", your phone number is \"%s\", please enter \"yes\" to creat account", name, phoneNumber);
                 char tmp[20];
                 gets(tmp);
+                fflush(stdin);
                 if(strcmp(tmp, "yes") == 0) break;
             }
             struct User* user = addUser(name, pwd, phoneNumber);
