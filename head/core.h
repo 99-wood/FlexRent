@@ -448,8 +448,13 @@ void outputRentMsg(){
         printf("%d\n", now -> middiumId);
     }
 }
+void outputPassword(){
+    printf("%s\n", getAdminPassword());
+    return;
+}
 void outputSystem(char fileName[]){
     freopen(fileName, "w", stdout);
+    outputPassword();
     outputTag();
     outputPlaceTree(&placeRoot);
     printf("FINISH\n");
@@ -637,8 +642,15 @@ void inputRMsg(){
     }
     return;
 }
+void inputPassword(){
+    char password[20];
+    gets(password);
+    setAdminPassword(password);
+    return;
+}
 void inputSystem(char fileName[]){
     freopen(fileName, "r", stdin);
+    inputPassword();
     inputTag();
     inputPlaceTree();
     inputHouse();
@@ -654,7 +666,7 @@ bool isFileExists(char fileName[]) {
 }
 /*init*/
 void initSystem(){
-    setAdminPassword("123456");
+    // setAdminPassword("123456");
     // initVoidTreap(&rentHouseMsg);
     initVoidTreap(&vMsgTreap);
     initVoidList(&vMsgList);
@@ -671,6 +683,9 @@ void initSystem(){
     placeRoot.level = 0;
     if(isFileExists("data.out")){
         inputSystem("data.out");
+    }
+    else{
+        setAdminPassword("123456");
     }
     return;
 }
