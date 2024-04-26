@@ -16,7 +16,7 @@ int __L, __R;
 
 /*tool*/
 void sort(void* val[], int l, int r, bool (*cmp)(void*, void*)){
-    if(l == r) return;
+    if(l >= r) return;
     int mid = (l + r) >> 1;
     sort(val, l, mid, cmp);
     sort(val, mid + 1, r, cmp);
@@ -156,6 +156,18 @@ void printHouse(struct House* house){
     if(house -> price != -1) printf(" price: %d", house -> price);
     printf(" owner: %s owner'sPhone: %s", house -> ownerName, house -> ownerPhone);
 }
+
+bool isAvailable(struct House* house, struct Date start, struct Date end){
+    for(struct IntListNode* p = house -> rentMsgList.head; p != NULL; p = p -> nxt){
+        struct RentHouseMsg* msg = (struct RentHouseMsg*)getVoidTreapNodeData(&rMsgTreap, p -> value);
+        if(cmpDate(msg -> end, start) < 0 || cmpDate(end, msg -> begin) < 0) continue;
+        else{
+            return false;
+        }
+    }
+    return true;
+}
+
 // void printAll(struct Place* place)
 void printAll(struct Place * rt, int len){
     // printf("yes");
@@ -613,8 +625,8 @@ void inputRMsg(){
     struct Date s, t;
     for(int i = 0; i < n; ++i){
         scanf("%d\n", &id);
-        scanf("%d%d%d\n", &t.year, &t.month, &t.day);
         scanf("%d%d%d\n", &s.year, &s.month, &s.day);
+        scanf("%d%d%d\n", &t.year, &t.month, &t.day);
         scanf("%d\n", &houseId);
         scanf("%d\n", &userId);
         scanf("%d\n", &middiumId);

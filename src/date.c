@@ -23,10 +23,12 @@ bool isLegal(struct Date a){
     return false;
 }
 int cmpDate(struct Date a, struct Date b){
-    int hybridA=a.day+100*a.month+100000*a.year,hybridB=b.day+100*b.month+10000*b.year;
+    int hybridA=a.day+100*a.month+10000*a.year,hybridB=b.day+100*b.month+10000*b.year;
+    // printf("%d %d\n", hybridA, hybridB);
     if(hybridA>hybridB){
         return 1;
-    }else if(hybridA==hybridB){
+    }
+    else if(hybridA==hybridB){
         return 0;
     }else{
         return -1;

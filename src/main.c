@@ -306,9 +306,9 @@ int main(){
                                     if(op101_ == 0){ //房源信息查询与统计
                                         struct VoidList val;
                                         initVoidList(&val);
-                                        static char* op1010[] = {"Select All", "Select One Place", "Fuzzy Query", "Sort with Area", "Sort with ID", "Sort with Price", "Back"};
+                                        static char* op1010[] = {"Select All", "Select One Place", "Fuzzy Query", "Sort with Area", "Sort with ID", "Sort with Price", "Is a property available?", "Back"};
                                         while(true){
-                                            int op1010_ = UiPrint(op1010, 7);
+                                            int op1010_ = UiPrint(op1010, 8);
                                             if(op1010_ == 0){ //全选
                                                 clearVoidList(&val);
                                                 val = *filterVoidList(&houseList, &returnTrue);
@@ -362,7 +362,7 @@ int main(){
                                                 val = *VoidArrayToVoidList(array, len);
                                                 free(array);
                                             }
-                                            else if(op1010_ == 5){ //排序
+                                            else if(op1010_ == 5){ //价格排序
                                                 int len = val.cnt;
                                                 void** array = VoidListToVoidArray(&val);
                                                 sort(array, 0, len - 1, &cmpprice);
@@ -370,14 +370,55 @@ int main(){
                                                 val = *VoidArrayToVoidList(array, len);
                                                 free(array);
                                             }
+                                            else if(op1010_ == 6){ //查询某房源是否可用
+                                                int houseID, userID;
+                                                printf("Please enter the house ID:"); scanf("%d", &houseID);
+                                                if(houseID >= cntHouse){
+                                                    printf("Wrong ID!");
+                                                    fflush(stdin);
+                                                    getchar();
+                                                    continue;
+                                                }
+                                                struct Date begin, end;
+                                                printf("Please enter the begin date(yyyy-mm-dd):");scanf("%d-%d-%d", &begin.year, &begin.month, &begin.day);
+                                                printf("Please enter the end date(yyyy-mm-dd):");scanf("%d-%d-%d", &end.year, &end.month, &end.day);
+                                                if(isLegal(begin) == false || isLegal(end) == false || cmpDate(begin, end) > 0){
+                                                    // printf("%d-%d-%d\n", begin.year, begin.month, begin.day);
+                                                    // printf("%d-%d-%d\n", end.year, end.month, end.day);
+                                                    printf("Wrong date!");
+                                                    fflush(stdin);
+                                                    getchar();
+                                                    continue;
+                                                }
+                                                struct House* house = getVoidTreapNodeData(&houseTreap, houseID);
+                                                if(isAvailable(house, begin, end)){
+                                                    printf("available!\n");
+                                                }
+                                                else{
+                                                    printf("not available!\n");
+                                                }
+                                                fflush(stdin);
+                                                getchar();
+                                                continue;
+                                            }
                                             else{
                                                 break;
                                             }
                                             int len = val.cnt;
                                             void** array = VoidListToVoidArray(&val);
+                                            int sumS = 0, cnt = 0;
                                             for(int i = 0; i < len; ++i){
-                                                printHouse((struct House*)array[i]);
-                                                printf("\n");
+                                                if(((struct House*)array[i]) -> state != deleted){
+                                                    struct House* house = (struct House*)array[i];
+                                                    printHouse(house);
+                                                    ++cnt;
+                                                    sumS += house -> S;
+                                                    printf("\n");
+                                                }
+                                            }
+                                            if(cnt > 0){
+                                                printf("total:%d\n", cnt);
+                                                printf("Average area:%d\n", sumS / cnt);
                                             }
                                             free(array);
                                             getchar();
@@ -810,7 +851,7 @@ int main(){
                                         struct Date begin, end;
                                         printf("Please enter the begin date(yyyy-mm-dd):");scanf("%d-%d-%d", &begin.year, &begin.month, &begin.day);
                                         printf("Please enter the end date(yyyy-mm-dd):");scanf("%d-%d-%d", &end.year, &end.month, &end.day);
-                                        if(isLegal(begin) == false || isLegal(end) == false){
+                                        if(isLegal(begin) == false || isLegal(end) == false || cmpDate(begin, end) > 0){
                                             printf("Wrond date!");
                                             fflush(stdin);
                                             getchar();
