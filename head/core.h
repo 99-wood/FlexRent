@@ -292,6 +292,7 @@ struct Middium* addMiddium(char name[], char password[], char phoneNumber[]){
     middium -> phoneNumber = (char*)malloc(sizeof(char) * (strlen(phoneNumber) + 1));
     strcpy(middium -> name, name);
     strcpy(middium -> password, password);
+    strcpy(middium -> phoneNumber, phoneNumber);
     initIntList(&middium -> viewMsgList);
     initIntList(&middium -> rentMsgList);
     addVoidListHead(&middiumList, middium);
@@ -391,7 +392,6 @@ void outputMiddium(){
         printf("%d\n", middium -> id);
         printf("%s\n", middium -> password);
         printf("%s\n", middium -> phoneNumber);
-
         printf("%d\n", middium -> viewMsgList.cnt);
         for(struct IntListNode* j = middium -> viewMsgList.head; j != NULL; j = j -> nxt){
             printf("%d ", j -> value);
@@ -546,6 +546,7 @@ void inputMiddium(){
         scanf("%d\n", &id);
         gets(password);
         gets(phoneNumber);
+        printf("%s\n", phoneNumber);
         struct Middium* middium = addMiddium(name, password, phoneNumber);
 
         int m;
