@@ -168,6 +168,27 @@ bool isAvailable(struct House* house, struct Date start, struct Date end){
     return true;
 }
 
+int getRentTime(struct House* house, struct Date start, struct Date end){ //查询框{}
+    int ans = 0;
+    for(struct IntListNode* p = house -> rentMsgList.head; p != NULL; p = p -> nxt){
+        struct RentHouseMsg* msg = (struct RentHouseMsg*)getVoidTreapNodeData(&rMsgTreap, p -> value);
+        if(cmpDate(msg -> end, start) < 0 || cmpDate(end, msg -> begin) < 0) continue; // []{} || {}[]
+        else if(cmpDate(msg -> begin, start) <= 0 && cmpDate(end, msg -> end) <= 0){ //[{}]
+            ans += subDate(start, end);
+        }
+        else if(cmpDate(start, msg -> begin) <= 0 && cmpDate(msg -> end, end) <= 0){ //{[]}
+            ans += subDate(msg -> begin, msg -> end);
+        }
+        else if(cmpDate(start, msg -> begin) <= 0 && cmpDate(end, msg -> end) <= 0){ //{[}]
+            ans += subDate(msg -> begin, end);
+        }
+        else{ //[{]}
+            ans += subDate(start, msg -> end);
+        }
+    }
+    return ans;
+}
+
 // void printAll(struct Place* place)
 void printAll(struct Place * rt, int len){
     // printf("yes");

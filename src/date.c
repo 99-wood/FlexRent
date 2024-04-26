@@ -56,7 +56,7 @@ int subDate(struct Date a, struct Date b){
     }else{
         days=days-(DaysAccum[a.month]+a.day);
     }
-    return days;
+    return days + 2;
 }
 bool SetDate(struct Date* date,int y,int m, int d){
     if(LeapJudge(date->year) && m==2 && d>29){
