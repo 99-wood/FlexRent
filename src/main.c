@@ -593,12 +593,17 @@ int main(){
                                                 break;
                                             }
                                             int len = val.cnt;
+                                            int cnt1 = 0, cnt2 = 0, cnt3 = 0; //normal, cancal, finish
                                             void** array = VoidListToVoidArray(&val);
                                             for(int i = 0; i < len; ++i){
                                                 printVMsg((struct ViewHouseMsg*)array[i]);
+                                                if(((struct ViewHouseMsg*)array[i])->state == normal) ++cnt1;
+                                                else if(((struct ViewHouseMsg*)array[i])->state == cancel) ++cnt2;
+                                                else ++cnt3;
                                                 printf("\n");
                                             }
                                             printf("cnt: %d\n", val.cnt);
+                                            printf("normal: %d cancel: %d finish:%d\n", cnt1, cnt2, cnt3);
                                             free(array);
                                             fflush(stdin);
                                             getchar();
@@ -1252,12 +1257,17 @@ int main(){
                                         break;
                                     }
                                     int len = val.cnt;
+                                    int cnt1 = 0, cnt2 = 0, cnt3 = 0; //normal, cancal, finish
                                     void** array = VoidListToVoidArray(&val);
                                     for(int i = 0; i < len; ++i){
                                         printVMsg((struct ViewHouseMsg*)array[i]);
+                                        if(((struct ViewHouseMsg*)array[i])->state == normal) ++cnt1;
+                                        else if(((struct ViewHouseMsg*)array[i])->state == cancel) ++cnt2;
+                                        else ++cnt3;
                                         printf("\n");
                                     }
                                     printf("cnt: %d\n", val.cnt);
+                                    printf("normal: %d cancel: %d finish:%d\n", cnt1, cnt2, cnt3);
                                     free(array);
                                     fflush(stdin);
                                     getchar();
@@ -1704,12 +1714,17 @@ int main(){
                                         break;
                                     }
                                     int len = val.cnt;
+                                    int cnt1 = 0, cnt2 = 0, cnt3 = 0; //normal, cancal, finish
                                     void** array = VoidListToVoidArray(&val);
                                     for(int i = 0; i < len; ++i){
                                         printVMsg((struct ViewHouseMsg*)array[i]);
+                                        if(((struct ViewHouseMsg*)array[i])->state == normal) ++cnt1;
+                                        else if(((struct ViewHouseMsg*)array[i])->state == cancel) ++cnt2;
+                                        else ++cnt3;
                                         printf("\n");
                                     }
                                     printf("cnt: %d\n", val.cnt);
+                                    printf("normal: %d cancel: %d finish:%d\n", cnt1, cnt2, cnt3);
                                     free(array);
                                     fflush(stdin);
                                     getchar();
