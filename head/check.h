@@ -6,6 +6,8 @@
 #include "middium.h"
 #include "user.h"
 #include "head.h"
+#include "date.h"
+struct Date __Ldate, __Rdate;
 bool returnTrue(void* a){
     return true;
 }
@@ -21,11 +23,23 @@ bool cmpID(void* a, void* b){
 bool cmpprice(void* a, void* b){
     return ((struct House*)a) -> price < ((struct House*)b) -> price;
 }
+bool cmpViewId(void* a, void* b){
+    return ((struct ViewHouseMsg*)a) -> id < ((struct ViewHouseMsg*)b) -> id;
+}
 bool cmpViewDate(void* a, void* b){
     return cmpDate(((struct ViewHouseMsg*)a) -> reqTime, ((struct ViewHouseMsg*)b) -> reqTime) < 0;
 }
 bool cmpRentDate(void* a, void* b){
     return cmpDate(((struct RentHouseMsg*)a) -> begin, ((struct RentHouseMsg*)b) -> begin) < 0;
+}
+bool cmpRentId(void* a, void* b){
+    return ((struct RentHouseMsg*)a) -> id < ((struct RentHouseMsg*)b) -> id;
+}
+bool cmpMiddiumId(void* a, void* b){
+    return ((struct Middium*)a) -> id < ((struct Middium*)b) -> id;
+}
+bool cmpMiddiumRentRatio(void* a, void* b){
+    return ((struct Middium*)a) -> rentMsgList.cnt > ((struct Middium*)b) -> rentMsgList.cnt;
 }
 char keyWord[20];
 int pre[20];
@@ -115,5 +129,9 @@ bool checkRMsgKey(void* a){
     struct Middium* middium = getVoidTreapNodeData(&middiumTreap, msg -> middiumId);
     struct User* user = getVoidTreapNodeData(&userTreap, msg -> userId);
     return checkHouseKey(house) || checkMiddiumKey(middium) || checkUserKey(user);
+}
+bool checkVmsgTime(void* a){
+    struct ViewHouseMsg* msg = (struct ViewHouseMsg*)a;
+    return cmpDate(__Ldate, msg ->reqTime) <= 0 && cmpDate(msg ->reqTime, __Rdate) <= 0;
 }
 #endif

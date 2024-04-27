@@ -153,12 +153,18 @@ void setOwner(struct House* house, char ownerName[], char ownerPhone[]){
 void printHouse(struct House* house){
     if(house == NULL) return;
     if(house -> state == deleted) return;
-    printf("id: %05d Area: %3d city: %s address: %s", house -> id, house -> S, house -> father -> father -> name, house -> address);
+    printf("id: %05d area: %3d city: %s address: %s", house -> id, house -> S, house -> father -> father -> name, house -> address);
     if(house -> price != -1) printf(" price: %d", house -> price);
     printf(" owner: %s owner'sPhone: %s", house -> ownerName, house -> ownerPhone);
     if(house -> direction != -1) printf(" direction: %s", tag[house -> direction].name);
     if(house -> decorationLevel != -1) printf(" decorationLevel: %s", tag[house -> decorationLevel].name);
     if(house -> houseType != -1) printf(" decorationLevel: %s", tag[house -> houseType].name);
+}
+
+void printMiddium(struct Middium* middium){
+    if(middium == NULL) return;
+    printf("id: %05d name: %s phone_number: %s turnover: %d", middium -> id, middium -> name, middium -> phoneNumber, middium -> rentMsgList.cnt);
+    return;
 }
 
 bool isAvailable(struct House* house, struct Date start, struct Date end){
@@ -175,6 +181,26 @@ bool isAvailable(struct House* house, struct Date start, struct Date end){
 int getRentTime(struct House* house, struct Date start, struct Date end){ //查询框{}
     int ans = 0;
     for(struct IntListNode* p = house -> rentMsgList.head; p != NULL; p = p -> nxt){
+        struct RentHouseMsg* msg = (struct RentHouseMsg*)getVoidTreapNodeData(&rMsgTreap, p -> value);
+        if(cmpDate(msg -> end, start) < 0 || cmpDate(end, msg -> begin) < 0) continue; // []{} || {}[]
+        else if(cmpDate(msg -> begin, start) <= 0 && cmpDate(end, msg -> end) <= 0){ //[{}]
+            ans += subDate(start, end);
+        }
+        else if(cmpDate(start, msg -> begin) <= 0 && cmpDate(msg -> end, end) <= 0){ //{[]}
+            ans += subDate(msg -> begin, msg -> end);
+        }
+        else if(cmpDate(start, msg -> begin) <= 0 && cmpDate(end, msg -> end) <= 0){ //{[}]
+            ans += subDate(msg -> begin, end);
+        }
+        else{ //[{]}
+            ans += subDate(start, msg -> end);
+        }
+    }
+    return ans;
+}
+int getMiddiumRentTime(struct Middium* middium, struct Date start, struct Date end){ //查询框{}
+    int ans = 0;
+    for(struct IntListNode* p = middium -> rentMsgList.head; p != NULL; p = p -> nxt){
         struct RentHouseMsg* msg = (struct RentHouseMsg*)getVoidTreapNodeData(&rMsgTreap, p -> value);
         if(cmpDate(msg -> end, start) < 0 || cmpDate(end, msg -> begin) < 0) continue; // []{} || {}[]
         else if(cmpDate(msg -> begin, start) <= 0 && cmpDate(end, msg -> end) <= 0){ //[{}]
@@ -274,6 +300,22 @@ struct VoidList* VmsgIdListToVmsgList(struct IntList* list){
     for(struct IntListNode* p = list -> head; p != NULL; p = p -> nxt){
         struct ViewHouseMsg* val = getVoidTreapNodeData(&vMsgTreap, p -> value);
         addVoidListHead(ans, val);
+    }
+    return ans;
+}
+struct IntList* VmsgListToVmsgIdList(struct VoidList* list){
+    struct IntList* ans = (struct IntList*)malloc(sizeof(struct IntList));
+    initIntList(ans);
+    for(struct VoidListNode* p = list -> head; p != NULL; p = p -> nxt){
+        addIntListHead(ans, ((struct ViewHouseMsg*)(p -> value))->id);
+    }
+    return ans;
+}
+struct IntList* RmsgListToRmsgIdList(struct VoidList* list){
+    struct IntList* ans = (struct IntList*)malloc(sizeof(struct IntList));
+    initIntList(ans);
+    for(struct VoidListNode* p = list -> head; p != NULL; p = p -> nxt){
+        addIntListHead(ans, ((struct RentHouseMsg*)(p -> value))->id);
     }
     return ans;
 }
