@@ -1005,167 +1005,167 @@ int main(){
                         while(true){
                             int op11_ = UiPrint(op11, 5);
                             if(op11_ == 0){ //房源信息查询与统计
-                                        struct VoidList val;
-                                        initVoidList(&val);
-                                        static char* op1010[] = {"Select All", "Select One Place", "Fuzzy Query", "Sort with Area", "Sort with ID", "Sort with Price", "Is a property available?", "Time Range Query", "Back"};
-                                        while(true){
-                                            int op1010_ = UiPrint(op1010, 9);
-                                            if(op1010_ == 0){ //全选
-                                                clearVoidList(&val);
-                                                val = *filterVoidList(&houseList, &returnTrue);
-                                                printf("OK!\n");
-                                                fflush(stdin);
-                                                getchar();
-                                            }
-                                            else if(op1010_ == 1){ //选择某个区
-                                                char placeName[20];
-                                                printf("Please Enter the place name:");
-                                                fflush(stdin);
-                                                gets(placeName);
-                                                struct Place* place = (struct Place*)getHashTreapNodeData(&placeTraep, makeHashValue(placeName));
-                                                if(place == NULL || place -> level != 3){
-                                                    printf("There 's no this place!");
-                                                    fflush(stdin);
-                                                    getchar();
-                                                }
-                                                else{
-                                                    clearVoidList(&val);
-                                                    val = *filterVoidList(&place -> sons, &returnTrue);
-                                                    printf("OK!\n");
-                                                    fflush(stdin);
-                                                    getchar();
-                                                }
-                                            }
-                                            else if(op1010_ == 2){ //模糊查询
-                                                printf("Please Enter the key words:");
-                                                fflush(stdin);
-                                                gets(keyWord);
-                                                struct VoidList tmp = *filterVoidList(&val, &returnTrue);
-                                                val = *filterVoidList(&tmp, &checkHouseKey);
-                                                clearVoidList(&tmp);
-                                                printf("OK!\n");
-                                                fflush(stdin);
-                                                getchar();
-                                            }
-                                            else if(op1010_ == 3){ //排序
-                                                int len = val.cnt;
-                                                void** array = VoidListToVoidArray(&val);
-                                                sort(array, 0, len - 1, &cmpS);
-                                                clearVoidList(&val);
-                                                val = *VoidArrayToVoidList(array, len);
-                                                free(array);
-                                            }
-                                            else if(op1010_ == 4){ //id排序
-                                                int len = val.cnt;
-                                                void** array = VoidListToVoidArray(&val);
-                                                sort(array, 0, len - 1, &cmpID);
-                                                clearVoidList(&val);
-                                                val = *VoidArrayToVoidList(array, len);
-                                                free(array);
-                                            }
-                                            else if(op1010_ == 5){ //价格排序
-                                                int len = val.cnt;
-                                                void** array = VoidListToVoidArray(&val);
-                                                sort(array, 0, len - 1, &cmpprice);
-                                                clearVoidList(&val);
-                                                val = *VoidArrayToVoidList(array, len);
-                                                free(array);
-                                            }
-                                            else if(op1010_ == 6){ //查询某房源是否可用
-                                                int houseID, userID;
-                                                printf("Please enter the house ID:"); scanf("%d", &houseID);
-                                                if(houseID >= cntHouse){
-                                                    printf("Wrong ID!");
-                                                    fflush(stdin);
-                                                    getchar();
-                                                    continue;
-                                                }
-                                                struct Date begin, end;
-                                                printf("Please enter the begin date(yyyy-mm-dd):");scanf("%d-%d-%d", &begin.year, &begin.month, &begin.day);
-                                                printf("Please enter the end date(yyyy-mm-dd):");scanf("%d-%d-%d", &end.year, &end.month, &end.day);
-                                                if(isLegal(begin) == false || isLegal(end) == false || cmpDate(begin, end) > 0){
-                                                    // printf("%d-%d-%d\n", begin.year, begin.month, begin.day);
-                                                    // printf("%d-%d-%d\n", end.year, end.month, end.day);
-                                                    printf("Wrong date!");
-                                                    fflush(stdin);
-                                                    getchar();
-                                                    continue;
-                                                }
-                                                struct House* house = getVoidTreapNodeData(&houseTreap, houseID);
-                                                if(isAvailable(house, begin, end)){
-                                                    printf("available!\n");
-                                                }
-                                                else{
-                                                    printf("not available!\n");
-                                                }
-                                                fflush(stdin);
-                                                getchar();
-                                                continue;
-                                            }
-                                            else if(op1010_ == 7){ //时间区间查询
-                                                struct Date begin, end;
-                                                printf("Please enter the begin date(yyyy-mm-dd):");scanf("%d-%d-%d", &begin.year, &begin.month, &begin.day);
-                                                printf("Please enter the end date(yyyy-mm-dd):");scanf("%d-%d-%d", &end.year, &end.month, &end.day);
-                                                if(isLegal(begin) == false || isLegal(end) == false || cmpDate(begin, end) > 0){
-                                                    // printf("%d-%d-%d\n", begin.year, begin.month, begin.day);
-                                                    // printf("%d-%d-%d\n", end.year, end.month, end.day);
-                                                    printf("Wrong date!");
-                                                    fflush(stdin);
-                                                    getchar();
-                                                    continue;
-                                                }
-                                                int len = val.cnt;
-                                                void** array = VoidListToVoidArray(&val);
-                                                int sumS = 0, cnt = 0;
-                                                int sumT = 0;
-                                                for(int i = 0; i < len; ++i){
-                                                    if(((struct House*)array[i]) -> state != deleted){
-                                                        struct House* house = (struct House*)array[i];
-                                                        printHouse(house);
-                                                        int t = getRentTime(house, begin, end);
-                                                        sumT += t;
-                                                        printf(" rent_time: %d\n", t);
-                                                        sumS += house -> S;
-                                                        ++cnt;
-                                                        printf("\n");
-                                                    }
-                                                }
-                                                if(cnt > 0){
-                                                    printf("total:%d\n", cnt);
-                                                    printf("Average area:%d\n", sumS / cnt);
-                                                    printf("Average rent_time:%lf\n", (double)sumT / cnt);
-                                                }
-                                                free(array);
-                                                fflush(stdin);
-                                                getchar();
-                                                continue;
-                                            }
-                                            else{
-                                                break;
-                                            }
-                                            int len = val.cnt;
-                                            void** array = VoidListToVoidArray(&val);
-                                            int sumS = 0, cnt = 0;
-                                            for(int i = 0; i < len; ++i){
-                                                if(((struct House*)array[i]) -> state != deleted){
-                                                    struct House* house = (struct House*)array[i];
-                                                    printHouse(house);
-                                                    ++cnt;
-                                                    sumS += house -> S;
-                                                    printf("\n");
-                                                }
-                                            }
-                                            if(cnt > 0){
-                                                printf("total:%d\n", cnt);
-                                                printf("Average area:%d\n", sumS / cnt);
-                                            }
-                                            free(array);
+                                struct VoidList val;
+                                initVoidList(&val);
+                                static char* op1010[] = {"Select All", "Select One Place", "Fuzzy Query", "Sort with Area", "Sort with ID", "Sort with Price", "Is a property available?", "Time Range Query", "Back"};
+                                while(true){
+                                    int op1010_ = UiPrint(op1010, 9);
+                                    if(op1010_ == 0){ //全选
+                                        clearVoidList(&val);
+                                        val = *filterVoidList(&houseList, &returnTrue);
+                                        printf("OK!\n");
+                                        fflush(stdin);
+                                        getchar();
+                                    }
+                                    else if(op1010_ == 1){ //选择某个区
+                                        char placeName[20];
+                                        printf("Please Enter the place name:");
+                                        fflush(stdin);
+                                        gets(placeName);
+                                        struct Place* place = (struct Place*)getHashTreapNodeData(&placeTraep, makeHashValue(placeName));
+                                        if(place == NULL || place -> level != 3){
+                                            printf("There 's no this place!");
                                             fflush(stdin);
                                             getchar();
                                         }
-                                        clearVoidList(&val);
+                                        else{
+                                            clearVoidList(&val);
+                                            val = *filterVoidList(&place -> sons, &returnTrue);
+                                            printf("OK!\n");
+                                            fflush(stdin);
+                                            getchar();
+                                        }
                                     }
-                            else if(op11_ == 1){
+                                    else if(op1010_ == 2){ //模糊查询
+                                        printf("Please Enter the key words:");
+                                        fflush(stdin);
+                                        gets(keyWord);
+                                        struct VoidList tmp = *filterVoidList(&val, &returnTrue);
+                                        val = *filterVoidList(&tmp, &checkHouseKey);
+                                        clearVoidList(&tmp);
+                                        printf("OK!\n");
+                                        fflush(stdin);
+                                        getchar();
+                                    }
+                                    else if(op1010_ == 3){ //排序
+                                        int len = val.cnt;
+                                        void** array = VoidListToVoidArray(&val);
+                                        sort(array, 0, len - 1, &cmpS);
+                                        clearVoidList(&val);
+                                        val = *VoidArrayToVoidList(array, len);
+                                        free(array);
+                                    }
+                                    else if(op1010_ == 4){ //id排序
+                                        int len = val.cnt;
+                                        void** array = VoidListToVoidArray(&val);
+                                        sort(array, 0, len - 1, &cmpID);
+                                        clearVoidList(&val);
+                                        val = *VoidArrayToVoidList(array, len);
+                                        free(array);
+                                    }
+                                    else if(op1010_ == 5){ //价格排序
+                                        int len = val.cnt;
+                                        void** array = VoidListToVoidArray(&val);
+                                        sort(array, 0, len - 1, &cmpprice);
+                                        clearVoidList(&val);
+                                        val = *VoidArrayToVoidList(array, len);
+                                        free(array);
+                                    }
+                                    else if(op1010_ == 6){ //查询某房源是否可用
+                                        int houseID, userID;
+                                        printf("Please enter the house ID:"); scanf("%d", &houseID);
+                                        if(houseID >= cntHouse){
+                                            printf("Wrong ID!");
+                                            fflush(stdin);
+                                            getchar();
+                                            continue;
+                                        }
+                                        struct Date begin, end;
+                                        printf("Please enter the begin date(yyyy-mm-dd):");scanf("%d-%d-%d", &begin.year, &begin.month, &begin.day);
+                                        printf("Please enter the end date(yyyy-mm-dd):");scanf("%d-%d-%d", &end.year, &end.month, &end.day);
+                                        if(isLegal(begin) == false || isLegal(end) == false || cmpDate(begin, end) > 0){
+                                            // printf("%d-%d-%d\n", begin.year, begin.month, begin.day);
+                                            // printf("%d-%d-%d\n", end.year, end.month, end.day);
+                                            printf("Wrong date!");
+                                            fflush(stdin);
+                                            getchar();
+                                            continue;
+                                        }
+                                        struct House* house = getVoidTreapNodeData(&houseTreap, houseID);
+                                        if(isAvailable(house, begin, end)){
+                                            printf("available!\n");
+                                        }
+                                        else{
+                                            printf("not available!\n");
+                                        }
+                                        fflush(stdin);
+                                        getchar();
+                                        continue;
+                                    }
+                                    else if(op1010_ == 7){ //时间区间查询
+                                        struct Date begin, end;
+                                        printf("Please enter the begin date(yyyy-mm-dd):");scanf("%d-%d-%d", &begin.year, &begin.month, &begin.day);
+                                        printf("Please enter the end date(yyyy-mm-dd):");scanf("%d-%d-%d", &end.year, &end.month, &end.day);
+                                        if(isLegal(begin) == false || isLegal(end) == false || cmpDate(begin, end) > 0){
+                                            // printf("%d-%d-%d\n", begin.year, begin.month, begin.day);
+                                            // printf("%d-%d-%d\n", end.year, end.month, end.day);
+                                            printf("Wrong date!");
+                                            fflush(stdin);
+                                            getchar();
+                                            continue;
+                                        }
+                                        int len = val.cnt;
+                                        void** array = VoidListToVoidArray(&val);
+                                        int sumS = 0, cnt = 0;
+                                        int sumT = 0;
+                                        for(int i = 0; i < len; ++i){
+                                            if(((struct House*)array[i]) -> state != deleted){
+                                                struct House* house = (struct House*)array[i];
+                                                printHouse(house);
+                                                int t = getRentTime(house, begin, end);
+                                                sumT += t;
+                                                printf(" rent_time: %d\n", t);
+                                                sumS += house -> S;
+                                                ++cnt;
+                                                printf("\n");
+                                            }
+                                        }
+                                        if(cnt > 0){
+                                            printf("total:%d\n", cnt);
+                                            printf("Average area:%d\n", sumS / cnt);
+                                            printf("Average rent_time:%lf\n", (double)sumT / cnt);
+                                        }
+                                        free(array);
+                                        fflush(stdin);
+                                        getchar();
+                                        continue;
+                                    }
+                                    else{
+                                        break;
+                                    }
+                                    int len = val.cnt;
+                                    void** array = VoidListToVoidArray(&val);
+                                    int sumS = 0, cnt = 0;
+                                    for(int i = 0; i < len; ++i){
+                                        if(((struct House*)array[i]) -> state != deleted){
+                                            struct House* house = (struct House*)array[i];
+                                            printHouse(house);
+                                            ++cnt;
+                                            sumS += house -> S;
+                                            printf("\n");
+                                        }
+                                    }
+                                    if(cnt > 0){
+                                        printf("total:%d\n", cnt);
+                                        printf("Average area:%d\n", sumS / cnt);
+                                    }
+                                    free(array);
+                                    fflush(stdin);
+                                    getchar();
+                                }
+                                clearVoidList(&val);
+                            }
+                            else if(op11_ == 1){ //看房查询统计
                                 struct VoidList val;
                                 initVoidList(&val);
                                 static char* op1010[] = {"Select my", "Select Time", "Fuzzy Query", "Sort with ID", "Sort with Time", "Finish Infomation", "Back"};
@@ -1274,26 +1274,49 @@ int main(){
                                 }
                                 clearVoidList(&val);
                             }
-                            else if(op11_ == 2){ //租房信息
-                                static char* op111[] = {"Show Infomation", "Add Infomation", "Back"};
+                            else if(op11_ == 2){ //租房信息查询与统计
+                                struct VoidList val;
+                                initVoidList(&val);
+                                static char* op1010[] = {"Select Me", "Fuzzy Query", "Sort with ID", "Sort with Begin_time", "Add Infomation", "Back"};
                                 while(true){
-                                    int op110_ = UiPrint(op111, 3);
-                                    if(op110_ == 0){ //打印信息
-                                        struct VoidList val;
+                                    int op1010_ = UiPrint(op1010, 6);
+                                    if(op1010_ == 0){ //选择某个中介
+                                        clearVoidList(&val);
                                         struct IntList tmp = *filterIntList(&middium -> rentMsgList, &ireturnTrue);
                                         val = *RmsgIdListToRmsgList(&tmp);
                                         clearIntList(&tmp);
-                                        int len = val.cnt;
-                                        void** array = VoidListToVoidArray(&val);
-                                        for(int i = 0; i < len; ++i){
-                                            printRMsg((struct RentHouseMsg*)array[i]);
-                                            printf("\n");
-                                        }
-                                        free(array);
+                                        printf("OK!\n");
                                         fflush(stdin);
                                         getchar();
                                     }
-                                    else if(op110_ == 1){
+                                    else if(op1010_ == 1){ //模糊查询
+                                        printf("Please Enter the key words:");
+                                        fflush(stdin);
+                                        gets(keyWord);
+                                        struct VoidList tmp = *filterVoidList(&val, &returnTrue);
+                                        val = *filterVoidList(&tmp, &checkRMsgKey);
+                                        clearVoidList(&tmp);
+                                        printf("OK!\n");
+                                        fflush(stdin);
+                                        getchar();
+                                    }
+                                    else if(op1010_ == 2){ //排序
+                                        int len = val.cnt;
+                                        void** array = VoidListToVoidArray(&val);
+                                        sort(array, 0, len - 1, &cmpRentId);
+                                        clearVoidList(&val);
+                                        val = *VoidArrayToVoidList(array, len);
+                                        free(array);
+                                    }
+                                    else if(op1010_ == 3){ //日期排序
+                                        int len = val.cnt;
+                                        void** array = VoidListToVoidArray(&val);
+                                        sort(array, 0, len - 1, &cmpRentDate);
+                                        clearVoidList(&val);
+                                        val = *VoidArrayToVoidList(array, len);
+                                        free(array);
+                                    }
+                                    else if(op1010_ == 4){
                                         int houseID, userID;
                                         printf("Please enter the house ID:"); scanf("%d", &houseID);
                                         if(houseID >= cntHouse){
@@ -1334,7 +1357,17 @@ int main(){
                                     else{
                                         break;
                                     }
+                                    int len = val.cnt;
+                                    void** array = VoidListToVoidArray(&val);
+                                    for(int i = 0; i < len; ++i){
+                                        printRMsg((struct RentHouseMsg*)array[i]);
+                                        printf("\n");
+                                    }
+                                    free(array);
+                                    fflush(stdin);
+                                    getchar();
                                 }
+                                clearVoidList(&val);
                             }
                             else if(op11_ == 3){ //修改密码
                                 char newPassword[20];
@@ -1731,20 +1764,62 @@ int main(){
                                 }
                                 clearVoidList(&val);
                             }
-                            else if(op12_ == 3){
+                            else if(op12_ == 3){ //租房信息查询与统计
                                 struct VoidList val;
-                                struct IntList tmp = *filterIntList(&user -> viewMsgList, &ireturnTrue);
-                                val = *RmsgIdListToRmsgList(&tmp);
-                                clearIntList(&tmp);
-                                int len = val.cnt;
-                                void** array = VoidListToVoidArray(&val);
-                                for(int i = 0; i < len; ++i){
-                                    printRMsg((struct RentHouseMsg*)array[i]);
-                                    printf("\n");
+                                initVoidList(&val);
+                                static char* op1010[] = {"Select Me", "Fuzzy Query", "Sort with ID", "Sort with Begin_time", "Back"};
+                                while(true){
+                                    int op1010_ = UiPrint(op1010, 5);
+                                    if(op1010_ == 0){ //选择某个用户/自己
+                                        clearVoidList(&val);
+                                        struct IntList tmp = *filterIntList(&user -> rentMsgList, &ireturnTrue);
+                                        val = *RmsgIdListToRmsgList(&tmp);
+                                        clearIntList(&tmp);
+                                        printf("OK!\n");
+                                        fflush(stdin);
+                                        getchar();
+                                    }
+                                    else if(op1010_ == 1){ //模糊查询
+                                        printf("Please Enter the key words:");
+                                        fflush(stdin);
+                                        gets(keyWord);
+                                        struct VoidList tmp = *filterVoidList(&val, &returnTrue);
+                                        val = *filterVoidList(&tmp, &checkRMsgKey);
+                                        clearVoidList(&tmp);
+                                        printf("OK!\n");
+                                        fflush(stdin);
+                                        getchar();
+                                    }
+                                    else if(op1010_ == 2){ //排序
+                                        int len = val.cnt;
+                                        void** array = VoidListToVoidArray(&val);
+                                        sort(array, 0, len - 1, &cmpRentId);
+                                        clearVoidList(&val);
+                                        val = *VoidArrayToVoidList(array, len);
+                                        free(array);
+                                    }
+                                    else if(op1010_ == 3){ //日期排序
+                                        int len = val.cnt;
+                                        void** array = VoidListToVoidArray(&val);
+                                        sort(array, 0, len - 1, &cmpRentDate);
+                                        clearVoidList(&val);
+                                        val = *VoidArrayToVoidList(array, len);
+                                        free(array);
+                                    }
+                                    else{
+                                        break;
+                                    }
+                                    int len = val.cnt;
+                                    void** array = VoidListToVoidArray(&val);
+                                    for(int i = 0; i < len; ++i){
+                                        printRMsg((struct RentHouseMsg*)array[i]);
+                                        printf("\n");
+                                    }
+                                    free(array);
+                                    fflush(stdin);
+                                    getchar();
                                 }
-                                free(array);
-                                fflush(stdin);
-                                getchar();
+                                clearVoidList(&val);
                             }
                             else if(op12_ == 4){
                                 char newPassword[20];

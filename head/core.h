@@ -278,7 +278,7 @@ void finishViewHouse(struct ViewHouseMsg* msg){
 }
 void printVMsg(struct ViewHouseMsg* msg){
     if(msg == NULL) return;
-    printf("id: %05d houseID: %05d agencyID: %05d userID: %05d", msg -> id, msg -> houseId, msg -> middiumId, msg -> userId);
+    printf("id: %05d houseID: %05d agencyID: %05d agency_name: %s userID: %05d user_name: %s", msg -> id, msg -> houseId, msg -> middiumId, ((struct Middium*)getVoidTreapNodeData(&middiumTreap, msg -> middiumId))->name, msg -> userId, ((struct Middium*)getVoidTreapNodeData(&userTreap, msg -> userId))->name);
     printf(" time: %04d-%02d-%02d", msg -> reqTime.year, msg -> reqTime.month, msg -> reqTime.day);
     if(msg -> state == normal) printf("state: normal");
     else if(msg -> state == cancel) printf("state: cancel");
@@ -287,7 +287,7 @@ void printVMsg(struct ViewHouseMsg* msg){
 }
 void printRMsg(struct RentHouseMsg* msg){
     if(msg == NULL) return;
-    printf("id: %05d houseID: %05d agencyID: %05d userID: %05d", msg -> id, msg -> houseId, msg -> middiumId, msg -> userId);
+    printf("id: %05d houseID: %05d agencyID: %05d agency_name: %s userID: %05d user_name: %s", msg -> id, msg -> houseId, msg -> middiumId, ((struct Middium*)getVoidTreapNodeData(&middiumTreap, msg -> middiumId))->name, msg -> userId, ((struct Middium*)getVoidTreapNodeData(&userTreap, msg -> userId))->name);
     printf(" begin_time: %04d-%02d-%02d end_time: %04d-%02d-%02d", msg -> begin.year, msg -> begin.month, msg -> begin.day, msg -> end.year, msg -> end.month, msg -> end.day);
     // if(msg -> state == normal) printf("state: normal");
     // else if(msg -> state == cancel) printf("state: cancel");
