@@ -485,7 +485,7 @@ void outputSystem(char fileName[]){
     outputUser();
     outputViewMsg();
     outputRentMsg();
-    // freopen("CON", "w", stdout);
+    freopen("CON", "a", stdout);
     return;
 }
 void inputTag(){

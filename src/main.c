@@ -753,7 +753,26 @@ int main(){
                                 
                             }
                             else if(op10_ == 3){ //系统
-                                
+                                static char* op103[] = {"System backup", "System recovery", "Back"};
+                                while(true){
+                                    int op103_ = UiPrint(op103, 3);
+                                    if(op103_ == 0){
+                                        printf("Please enter the file name:");
+                                        char fileName[100];
+                                        fflush(stdin);
+                                        gets(fileName);
+                                        outputSystem(fileName);
+                                        printf("OK");
+                                        fflush(stdin);
+                                        getchar();
+                                    }
+                                    else if(op103_ == 1){
+
+                                    }
+                                    else{
+                                        break;
+                                    }
+                                }
                             }
                             else if(op10_ == 4){ //修改密码
                                 char newPassword[20];
