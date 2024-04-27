@@ -13,6 +13,7 @@
 #include <sys/stat.h>
 
 int __L, __R;
+FILE *fp = NULL;
 
 /*tool*/
 void sort(void* val[], int l, int r, bool (*cmp)(void*, void*)){
@@ -155,6 +156,9 @@ void printHouse(struct House* house){
     printf("id: %05d Area: %3d city: %s address: %s", house -> id, house -> S, house -> father -> father -> name, house -> address);
     if(house -> price != -1) printf(" price: %d", house -> price);
     printf(" owner: %s owner'sPhone: %s", house -> ownerName, house -> ownerPhone);
+    if(house -> direction != -1) printf(" direction: %s", tag[house -> direction].name);
+    if(house -> decorationLevel != -1) printf(" decorationLevel: %s", tag[house -> decorationLevel].name);
+    if(house -> houseType != -1) printf(" decorationLevel: %s", tag[house -> houseType].name);
 }
 
 bool isAvailable(struct House* house, struct Date start, struct Date end){
@@ -354,16 +358,16 @@ void changeUserPassword(struct User* user, char newPassword[]){
     return;
 }
 void outputTag(){
-    printf("%d\n", tagCnt);
+    fprintf(fp, "%d\n", tagCnt);
     for(int i = 0; i < tagCnt; ++i){
-        printf("%s\n", tag[i].name);
+        fprintf(fp, "%s\n", tag[i].name);
     }
     return;
 }
 
 void outputPlaceTree(struct Place* rt){
     if(rt -> level != 0){
-        printf("%s\n%s\n", rt -> father -> name, rt -> name);
+        fprintf(fp, "%s\n%s\n", rt -> father -> name, rt -> name);
     }
     if(rt -> level == 3) return;
     for(struct VoidListNode * p = rt -> sons.head; p != NULL; p = p -> nxt){
@@ -372,120 +376,121 @@ void outputPlaceTree(struct Place* rt){
     return;
 }
 void outputHouse(){
-    printf("%d\n", cntHouse);
+    fprintf(fp, "%d\n", cntHouse);
     for(int i = 0; i < cntHouse; ++i){
         // int a;
         // scanf("%d", &a);
         struct House* house = (struct House*)getVoidTreapNodeData(&houseTreap, i);
-        // printf("%d\n", house);
+        // fprintf(fp, "%d\n", house);
         // getchar();
-        printf("%d\n", i);
-        printf("%d\n", house -> price);
-        printf("%d\n", house -> S);
-        printf("%d\n", house -> floor);
-        printf("%d\n", house -> state);
-        printf("%s\n", house -> ownerName);
-        printf("%s\n", house -> ownerPhone);
-        printf("%s\n", house -> father -> name);
-        printf("%s\n", house -> address);
-        printf("%d\n", house -> direction);
-        printf("%d\n", house -> decorationLevel);
-        printf("%d\n", house -> houseType);
+        fprintf(fp, "%d\n", i);
+        fprintf(fp, "%d\n", house -> price);
+        fprintf(fp, "%d\n", house -> S);
+        fprintf(fp, "%d\n", house -> floor);
+        fprintf(fp, "%d\n", house -> state);
+        fprintf(fp, "%s\n", house -> ownerName);
+        fprintf(fp, "%s\n", house -> ownerPhone);
+        fprintf(fp, "%s\n", house -> father -> name);
+        fprintf(fp, "%s\n", house -> address);
+        fprintf(fp, "%d\n", house -> direction);
+        fprintf(fp, "%d\n", house -> decorationLevel);
+        fprintf(fp, "%d\n", house -> houseType);
 
-        printf("%d\n", house -> viewMsgList.cnt);
+        fprintf(fp, "%d\n", house -> viewMsgList.cnt);
         for(struct IntListNode* j = house -> viewMsgList.head; j != NULL; j = j -> nxt){
-            printf("%d ", j -> value);
+            fprintf(fp, "%d ", j -> value);
         }
-        printf("\n");
-        printf("%d\n", house -> rentMsgList.cnt);
+        fprintf(fp, "\n");
+        fprintf(fp, "%d\n", house -> rentMsgList.cnt);
         for(struct IntListNode* j = house -> rentMsgList.head; j != NULL; j = j -> nxt){
-            printf("%d ", j -> value);
+            fprintf(fp, "%d ", j -> value);
         }
-        printf("\n");
+        fprintf(fp, "\n");
     }
     return;
 }
 void outputMiddium(){
-    printf("%d\n", cntMiddium);
+    fprintf(fp, "%d\n", cntMiddium);
     for(int i = 0; i < cntMiddium; ++i){
         struct Middium* middium = (struct Middium*)getVoidTreapNodeData(&middiumTreap, i);
-        printf("%s\n", middium -> name);
-        printf("%d\n", middium -> id);
-        printf("%s\n", middium -> password);
-        printf("%s\n", middium -> phoneNumber);
-        printf("%d\n", middium -> viewMsgList.cnt);
+        fprintf(fp, "%s\n", middium -> name);
+        fprintf(fp, "%d\n", middium -> id);
+        fprintf(fp, "%s\n", middium -> password);
+        fprintf(fp, "%s\n", middium -> phoneNumber);
+        fprintf(fp, "%d\n", middium -> viewMsgList.cnt);
         for(struct IntListNode* j = middium -> viewMsgList.head; j != NULL; j = j -> nxt){
-            printf("%d ", j -> value);
+            fprintf(fp, "%d ", j -> value);
         }
-        printf("\n");
-        printf("%d\n", middium -> rentMsgList.cnt);
+        fprintf(fp, "\n");
+        fprintf(fp, "%d\n", middium -> rentMsgList.cnt);
         for(struct IntListNode* j = middium -> rentMsgList.head; j != NULL; j = j -> nxt){
-            printf("%d ", j -> value);
+            fprintf(fp, "%d ", j -> value);
         }
-        printf("\n");
+        fprintf(fp, "\n");
     }
 }
 void outputUser(){
-    printf("%d\n", cntUser);
+    fprintf(fp, "%d\n", cntUser);
     for(int i = 0; i < cntUser; ++i){
         struct User* user = (struct User*)getVoidTreapNodeData(&userTreap, i);
-        printf("%s\n", user -> name);
-        printf("%d\n", user -> id);
-        printf("%s\n", user -> password);
-        printf("%s\n", user -> phoneNumber);
+        fprintf(fp, "%s\n", user -> name);
+        fprintf(fp, "%d\n", user -> id);
+        fprintf(fp, "%s\n", user -> password);
+        fprintf(fp, "%s\n", user -> phoneNumber);
 
-        printf("%d\n", user -> viewMsgList.cnt);
+        fprintf(fp, "%d\n", user -> viewMsgList.cnt);
         for(struct IntListNode* j = user -> viewMsgList.head; j != NULL; j = j -> nxt){
-            printf("%d ", j -> value);
+            fprintf(fp, "%d ", j -> value);
         }
-        printf("\n");
-        printf("%d\n", user -> rentMsgList.cnt);
+        fprintf(fp, "\n");
+        fprintf(fp, "%d\n", user -> rentMsgList.cnt);
         for(struct IntListNode* j = user -> rentMsgList.head; j != NULL; j = j -> nxt){
-            printf("%d ", j -> value);
+            fprintf(fp, "%d ", j -> value);
         }
-        printf("\n");
+        fprintf(fp, "\n");
     }
 }
 void outputViewMsg(){
-    printf("%d\n", cntViewMsg);
+    fprintf(fp, "%d\n", cntViewMsg);
     for(int i = 0; i < cntViewMsg; ++i){
         struct ViewHouseMsg* now = (struct ViewHouseMsg*)getVoidTreapNodeData(&vMsgTreap, i);
-        printf("%d\n", now -> id);
-        printf("%d %d %d\n", now -> reqTime.year, now -> reqTime.month, now -> reqTime.day);
-        printf("%d\n", now -> houseId);
-        printf("%d\n", now -> userId);
-        printf("%d\n", now -> middiumId);
-        printf("%d\n", now -> state);
+        fprintf(fp, "%d\n", now -> id);
+        fprintf(fp, "%d %d %d\n", now -> reqTime.year, now -> reqTime.month, now -> reqTime.day);
+        fprintf(fp, "%d\n", now -> houseId);
+        fprintf(fp, "%d\n", now -> userId);
+        fprintf(fp, "%d\n", now -> middiumId);
+        fprintf(fp, "%d\n", now -> state);
     }
 }
 void outputRentMsg(){
-    printf("%d\n", cntRentMsg);
+    fprintf(fp, "%d\n", cntRentMsg);
     for(int i = 0; i < cntRentMsg; ++i){
         struct RentHouseMsg* now = (struct RentHouseMsg*)getVoidTreapNodeData(&rMsgTreap, i);
-        printf("%d\n", now -> id);
-        printf("%d %d %d %d %d %d\n", now -> begin.year, now -> begin.month, now -> begin.day, now -> end.year, now -> end.month, now -> end.day);
-        printf("%d\n", now -> houseId);
-        printf("%d\n", now -> userId);
-        printf("%d\n", now -> middiumId);
+        fprintf(fp, "%d\n", now -> id);
+        fprintf(fp, "%d %d %d %d %d %d\n", now -> begin.year, now -> begin.month, now -> begin.day, now -> end.year, now -> end.month, now -> end.day);
+        fprintf(fp, "%d\n", now -> houseId);
+        fprintf(fp, "%d\n", now -> userId);
+        fprintf(fp, "%d\n", now -> middiumId);
     }
 }
 void outputPassword(){
-    printf("%s\n", getAdminPassword());
+    fprintf(fp, "%s\n", getAdminPassword());
     return;
 }
 void outputSystem(char fileName[]){
-    freopen(fileName, "w", stdout);
+    fp = fopen(fileName, "w+");
     outputPassword();
     outputTag();
     outputPlaceTree(&placeRoot);
-    printf("FINISH\n");
-    printf("FINISH\n");
+    fprintf(fp, "FINISH\n");
+    fprintf(fp, "FINISH\n");
     outputHouse();
     outputMiddium();
     outputUser();
     outputViewMsg();
     outputRentMsg();
-    freopen("CON", "a", stdout);
+    fclose(fp);
+    // freopen("CON", "a", stdout);
     return;
 }
 void inputTag(){
@@ -503,7 +508,7 @@ void inputPlaceTree(){
     gets(father);
     gets(name);
     while(strcmp(name, "FINISH") != 0){
-        // printf("%s\n", father);
+        // fprintf(fp, "%s\n", father);
         // getchar();
         // printf("%s\n", name);
         // getchar();
@@ -718,10 +723,6 @@ void quitSystem(){
     gets(input);
     if(strcmp(input, "yes") == 0){
         outputSystem("data.out");
-    }
-    else{
-        outputSystem("CON");
-        getchar();
     }
     return;
 }

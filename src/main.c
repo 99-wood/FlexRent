@@ -217,8 +217,8 @@ int main(){
                                                             printf("The tag is not exist. Do you want to add it now? Enter \"yes\" to add the Tag.\n");
                                                             char tmp[20];
                                                             fflush(stdin);
-                                                            gets(str);
-                                                            if(strcmp(str, "yes") == 0){
+                                                            gets(tmp);
+                                                            if(strcmp(tmp, "yes") == 0){
                                                                 tagId = addTag(str);
                                                             }
                                                             else continue;
@@ -238,8 +238,8 @@ int main(){
                                                             printf("The tag is not exist. Do you want to add it now? Enter \"yes\" to add the Tag.\n");
                                                             char tmp[20];
                                                             fflush(stdin);
-                                                            gets(str);
-                                                            if(strcmp(str, "yes") == 0){
+                                                            gets(tmp);
+                                                            if(strcmp(tmp, "yes") == 0){
                                                                 tagId = addTag(str);
                                                             }
                                                             else continue;
@@ -259,8 +259,8 @@ int main(){
                                                             printf("The tag is not exist. Do you want to add it now? Enter \"yes\" to add the Tag.\n");
                                                             char tmp[20];
                                                             fflush(stdin);
-                                                            gets(str);
-                                                            if(strcmp(str, "yes") == 0){
+                                                            gets(tmp);
+                                                            if(strcmp(tmp, "yes") == 0){
                                                                 tagId = addTag(str);
                                                             }
                                                             else continue;
@@ -767,7 +767,49 @@ int main(){
                                         getchar();
                                     }
                                     else if(op103_ == 1){
-
+                                        printf("Please enter the file name:");
+                                        char fileName[100];
+                                        fflush(stdin);
+                                        gets(fileName);
+                                        if(isFileExists(fileName)){
+                                            // printf("OK");
+                                            // Sleep(3000);
+                                            if(strcmp("data.out", fileName) == 0){
+                                                printf("This file is the current archive!");
+                                                fflush(stdin);
+                                                getchar();
+                                                continue;
+                                            }
+                                            // if(isFileExists("data.out")){
+                                            //     system("del data.out");
+                                            // }
+                                            char script[100] = "copy ";
+                                            int len = strlen(fileName);
+                                            for(int i = 0; i < len; ++i){
+                                                script[i + 5] = fileName[i];
+                                            }
+                                            script[5 + len + 0] = ' ';
+                                            script[5 + len + 1] = 'd';
+                                            script[5 + len + 2] = 'a';
+                                            script[5 + len + 3] = 't';
+                                            script[5 + len + 4] = 'a';
+                                            script[5 + len + 5] = '.';
+                                            script[5 + len + 6] = 'o';
+                                            script[5 + len + 7] = 'u';
+                                            script[5 + len + 8] = 't';
+                                            script[5 + len + 9] = '\0';
+                                            // printf("%s\n", script);
+                                            // Sleep(3000);
+                                            system(script);
+                                            printf("OK, restart to open");
+                                            fflush(stdin);
+                                            getchar();
+                                        }
+                                        else{
+                                            printf("No this file!");
+                                            fflush(stdin);
+                                            getchar();
+                                        }
                                     }
                                     else{
                                         break;
